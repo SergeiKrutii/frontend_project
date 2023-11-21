@@ -11,14 +11,16 @@ export const StyledContainer = styled.div(() => ({
 
   "@media screen  and (min-width: 768px)": {
     maxWidth: 768,
-    paddingLeft: 51,
-    paddingRight: 52,
+    paddingLeft: 45,
+    paddingRight: 45,
+    minHeight: 1025,
   },
 
   "@media screen  and (min-width: 1280px)": {
     maxWidth: 1280,
-    paddingLeft: 110,
-    paddingRight: 110,
+    minHeight: 790,
+    // paddingLeft: 110,
+    // paddingRight: 110,
     display: "flex",
     justifyContent: "center",
   },
