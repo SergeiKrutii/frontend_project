@@ -1,10 +1,7 @@
 import { StyledContainer } from "./StyledContainer";
-import { useSelector } from "react-redux";
-import authSelectors from "redux/auth/authSelectors";
+import PropTypes from "prop-types";
 
 const Container = ({ children }) => {
-  // const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
-
   return (
     <>
       <StyledContainer>{children}</StyledContainer>
@@ -12,6 +9,11 @@ const Container = ({ children }) => {
   );
 };
 
-Container.propTypes = {};
+Container.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 export default Container;
