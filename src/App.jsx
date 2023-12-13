@@ -11,6 +11,7 @@ import { useMatchMedia } from "helpers/mediaQuery";
 import PrivateRoute from "components/routes/PrivateRoute";
 import PublicRoute from "components/routes/PublickRoute";
 import TraningPage from "pages/traningPage";
+import AddPage from "pages/addPageMobile";
 
 const App = () => {
   const { isMobile, isTablet, isDesctop } = useMatchMedia();
@@ -28,7 +29,8 @@ const App = () => {
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/library" element={<LibraryPage />} />
-            {/* <Route path="/traning" element={<TraningPage />} /> */}
+            <Route path="/traning" element={<TraningPage />} />
+            <Route path="/addbook" element={<AddPage />} />
           </Route>
         </Routes>
       ) : (
@@ -40,7 +42,7 @@ const App = () => {
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/library" element={<LibraryPage />} />
-            {/* <Route path="/traning" element={<LibraryPage />} /> */}
+            <Route path="/traning" element={<LibraryPage />} />
           </Route>
         </Routes>
       )}

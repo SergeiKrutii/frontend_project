@@ -45,6 +45,7 @@ const SpriteIcon = ({ name, ...props }) => {
         width: "1px",
       };
       break;
+    
 
     default:
       break;
