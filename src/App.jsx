@@ -6,12 +6,15 @@ import InfoPage from "pages/infoPage";
 import RegisterPage from "pages/registerPage";
 import LoginPage from "pages/loginPage";
 import LibraryPage from "pages/libraryPage";
+import TraningPage from "pages/traningPage";
 
 import { useMatchMedia } from "helpers/mediaQuery";
 import PrivateRoute from "components/routes/PrivateRoute";
 import PublicRoute from "components/routes/PublickRoute";
 import TraningPage from "pages/traningPage";
 import AddPage from "pages/addPageMobile";
+import AddTraningMobPage from "pages/traningPage/addTraningMob/AddTraningMobPage";
+
 
 const App = () => {
   const { isMobile, isTablet, isDesctop } = useMatchMedia();
@@ -31,6 +34,8 @@ const App = () => {
             <Route path="/library" element={<LibraryPage />} />
             <Route path="/traning" element={<TraningPage />} />
             <Route path="/addbook" element={<AddPage />} />
+            <Route path="/addtraningform" element={<AddTraningMobPage />} />
+
           </Route>
         </Routes>
       ) : (
@@ -48,27 +53,6 @@ const App = () => {
       )}
     </>
   );
-  // return deviceSize ? (
-  //   <>
-  //     <Header />
-  //     <RegisterPage />
-  //     <Container>
-  //       <InfoPage />
-  //       {/* <LoginPage /> */}
-  //     </Container>
-  //   </>
-  // ) : (
-  //   <>
-  //     <Header />
-  //     <div style={{ display: "flex", width: "1280px" }}>
-  //       <RegisterPage />
-  //       <Container>
-  //         <InfoPage />
-  //         {/* <LoginPage /> */}
-  //       </Container>
-  //     </div>
-  //   </>
-  // );
 };
 
 export default App;
