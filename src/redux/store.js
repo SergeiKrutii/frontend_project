@@ -5,34 +5,34 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "redux/auth/authSlice";
 import booksReducer from "redux/book/booksSlice";
 import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+	persistStore,
+	persistReducer,
+	FLUSH,
+	REHYDRATE,
+	PAUSE,
+	PERSIST,
+	PURGE,
+	REGISTER,
 } from "redux-persist";
 
 const authPersistConfig = {
-  key: "auth",
-  storage,
-  whitelist: ["token", "isLoggedIn"],
+	key: "auth",
+	storage,
+	whitelist: ["token", "isLoggedIn"],
 };
 
 export const store = configureStore({
-  reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
-    auth: persistReducer(authPersistConfig, authReducer),
-    books: booksReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(apiSlice.middleware),
+	reducer: {
+		[apiSlice.reducerPath]: apiSlice.reducer,
+		auth: persistReducer(authPersistConfig, authReducer),
+		books: booksReducer,
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			},
+		}).concat(apiSlice.middleware),
 });
 
 setupListeners(store.dispatch);

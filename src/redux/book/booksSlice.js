@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  books: [],
+	books: [],
 };
 
 const booksSlice = createSlice({
-  name: "transactions",
-  initialState,
-  reducers: {
-    setBooks: (state, { payload }) => {
-      state.newIncTransaction = payload;
-    },
-  },
+	name: "books",
+	initialState,
+	reducers: {
+		setBooks: (state, { payload }) => {
+			state.books = payload;
+		},
+	},
 });
 
 export const { setBooks } = booksSlice.actions;

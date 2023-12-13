@@ -74,6 +74,7 @@ const SpriteIcon = ({ name, ...props }) => {
       };
       break;
 
+
     default:
       break;
   }
