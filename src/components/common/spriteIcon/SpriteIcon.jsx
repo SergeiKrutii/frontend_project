@@ -45,6 +45,34 @@ const SpriteIcon = ({ name, ...props }) => {
         width: "1px",
       };
       break;
+    case "icon_traningLine":
+      iconStyles = {
+        height: "1px",
+        width: "270px",
+        marginBottom: "25px",
+      };
+      break;
+    case "icon_calendar":
+      iconStyles = {
+        height: "17px",
+        width: "17px",
+        marginRight: "17px",
+      };
+      break;
+    case "icon_dateArrow":
+      iconStyles = {
+        height: "7px",
+        width: "13px",
+        marginLeft: "auto",
+      };
+      break;
+    case "icon_getBack":
+      iconStyles = {
+        height: "12px",
+        width: "24px",
+        marginTop: "25px",
+      };
+      break;
 
     default:
       break;
