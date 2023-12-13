@@ -17,6 +17,8 @@ const StyledMainButton = styled.button`
   line-height: 38px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 
+  transition: background-color 0.4s ease;
+
   &:hover,
   &:focus {
     background-color: #d15807;

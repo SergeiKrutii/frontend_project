@@ -9,6 +9,8 @@ export const StyledContainer = styled.div(() => ({
   paddingLeft: 25,
   paddingRight: 25,
 
+  background: "#f6f7fb",
+
   "@media screen  and (min-width: 768px)": {
     maxWidth: 768,
     paddingLeft: 45,
@@ -19,9 +21,8 @@ export const StyledContainer = styled.div(() => ({
   "@media screen  and (min-width: 1280px)": {
     maxWidth: 1280,
     minHeight: 790,
-    // paddingLeft: 110,
-    // paddingRight: 110,
-    display: "flex",
-    justifyContent: "center",
+    padding: "0px 39px",
+    // display: "flex",
+    // justifyContent: "center",
   },
 }));
