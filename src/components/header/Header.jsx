@@ -15,7 +15,8 @@ const Header = () => {
   const page =
     pathname === "/library" ||
     pathname === "/traning" ||
-    pathname === "/addtraningform";
+    pathname === "/addtraningform" ||
+    pathname === "/addbook";
 
   return (
     <StyledHeader $location={page}>
