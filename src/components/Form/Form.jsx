@@ -6,15 +6,41 @@ import {
   StyledForm,
   StyledLabel,
   StyledInputWrapper,
+  StyledFormikError,
 } from "./StyledForm";
 import MainButton from "../common/mainButton/MainButton";
 import { useSignupMutation, useLoginMutation } from "redux/auth/authApiSlice";
+import * as Yup from "yup";
 
 const Form = ({ loc, btnText }) => {
   const isRegisterPage = loc === "/register";
   const [setRegisterData, { isSuccess }] = useSignupMutation();
   const [setLoginData] = useLoginMutation();
   const navigate = useNavigate();
+
+  const SignupSchema = Yup.object().shape({
+    name: Yup.string()
+      .max(10, "Ім'я повинно бути не більше 10 символів, або менше")
+      .required("Обов'язкове поле"),
+    email: Yup.string()
+      .email("Не корректна почтова адресса")
+      .required("Обов'язкове поле"),
+    password: Yup.string()
+      .required("Введіть пароль")
+      .min(6, "Пароль має бути не меньше 6 символів")
+      .max(12, "Пароль має бути не більше 12 символів"),
+    equalPassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Пароль повинен співпадати"
+    ),
+  });
+
+  const SigninSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Не корректна почтова адресса")
+      .required("Обов'язкове поле"),
+    password: Yup.string().required("Введіть пароль"),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -23,6 +49,7 @@ const Form = ({ loc, btnText }) => {
       password: "",
       equalPassword: "",
     },
+    validationSchema: isRegisterPage ? SignupSchema : SigninSchema,
     onSubmit: (values) => {
       const loginData = { email: values.email, password: values.password };
       if (isRegisterPage) {
@@ -50,8 +77,12 @@ const Form = ({ loc, btnText }) => {
             name="name"
             type="text"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.name}
           />
+          {formik.touched.name && formik.errors.name ? (
+            <StyledFormikError>{formik.errors.name}</StyledFormikError>
+          ) : null}
         </StyledInputWrapper>
       )}
 
@@ -60,10 +91,14 @@ const Form = ({ loc, btnText }) => {
         <StyledInput
           id="email"
           name="email"
-          type="text"
+          type="email"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.email}
         />
+        {formik.touched.email && formik.errors.email ? (
+          <StyledFormikError>{formik.errors.email}</StyledFormikError>
+        ) : null}
       </StyledInputWrapper>
 
       <StyledInputWrapper>
@@ -73,8 +108,12 @@ const Form = ({ loc, btnText }) => {
           name="password"
           type="password"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.password}
         />
+        {formik.touched.password && formik.errors.password ? (
+          <StyledFormikError>{formik.errors.password}</StyledFormikError>
+        ) : null}
       </StyledInputWrapper>
       {isRegisterPage && (
         <StyledInputWrapper>
@@ -84,8 +123,12 @@ const Form = ({ loc, btnText }) => {
             name="equalPassword"
             type="password"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.equalPassword}
           />
+          {formik.touched.equalPassword && formik.errors.equalPassword ? (
+            <StyledFormikError>{formik.errors.equalPassword}</StyledFormikError>
+          ) : null}
         </StyledInputWrapper>
       )}
 
