@@ -17,7 +17,7 @@ const StyledFormContainer = styled.div`
 `;
 
 const StyledInputWrapper = styled.div`
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   width: 270px;
 
   /* &:nth-child(4) {
@@ -69,9 +69,9 @@ const StyledLabel = styled.label`
 
   @media screen and (min-width: 768px) {
     color: #898f9f;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    line-height: 38px;
+    /* line-height: 38px; */
   }
 `;
 
@@ -98,10 +98,17 @@ const StyledInput = styled.input`
 
 const StyledFormButton = styled.button``;
 
+const StyledFormikError = styled.div`
+  color: red;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
 export {
   StyledFormContainer,
   StyledInput,
   StyledForm,
   StyledLabel,
   StyledInputWrapper,
+  StyledFormikError,
 };

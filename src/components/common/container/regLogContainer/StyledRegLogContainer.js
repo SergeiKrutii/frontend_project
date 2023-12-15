@@ -13,7 +13,7 @@ const StyledRegLogContainer = styled.div`
 
   width: 400px;
   /* height: 610px; */
-  height: ${({ $page }) => ($page === "/register" ? "610px" : "420px")};
+  /* height: ${({ $page }) => ($page === "/register" ? "" : "420px")}; */
 
   background-color: #fff;
 
@@ -31,7 +31,7 @@ const StyledBackgroundContainer = styled.div`
 
   padding-top: 30px;
 
-  height: ${(props) => (props.$page === "/login" ? "370px" : "560px")};
+  /* height: ${(props) => (props.$page === "/login" ? "370px" : "")}; */
   box-shadow: 0px 2px 3px 0px rgba(9, 30, 63, 0.1);
   background: rgba(9, 30, 63, 0.8);
 
