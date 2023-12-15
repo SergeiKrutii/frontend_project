@@ -83,7 +83,7 @@ const StyledLabel = styled.label({
 	lineHeight: "38px",
 });
 
-const StyledInputName = styled.input({
+const StyledInputTitle = styled.input({
 	background: "inherit",
 	boxShadow: "0px 1px 2px 0px rgba(29, 29, 27, 0.15) inset",
 	width: 255,
@@ -196,7 +196,7 @@ export {
 	StyledInputWrapper,
 	StyledLabel,
 	StyledFormBtn,
-	StyledInputName,
+	StyledInputTitle,
 	StyledInputAuthor,
 	StyledInputYear,
 	StyledInputPages,

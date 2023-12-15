@@ -4,6 +4,8 @@ import { useMatchMedia } from "helpers/mediaQuery";
 
 import CategoryLibrary from "components/common/сategoryLibrary/CategoryLibrary";
 
+import { useGetBookQuery } from "redux/book/booksApiSlice";
+
 import { StyledLibralyPage } from "./StyledLibralyPage";
 import LinkPageAdd from "components/common/LinkPageAdd";
 import FormAddBook from "components/common/formAddBook/FormAddBook";
@@ -12,10 +14,14 @@ import { useGetUserQuery } from "redux/auth/authApiSlice";
 
 const LibraryPage = () => {
   const [books, setBooks] = useState(null || []);
-  const [isReadBooks, setIsReadBooks] = useState([]);
-  const [isWantReadToBooks, setWantReadToBooks] = useState([]);
-  const [isReadingBooks, setIsReadingBooks] = useState([]);
-  const { isMobile, isTablet, isDesktop } = useMatchMedia();
+  const [isReadBooks, setIsReadBooks] = useState([])
+  const [isWantReadToBooks, setWantReadToBooks] = useState([])
+  const [isReadingBooks, setIsReadingBooks] = useState([])
+  const { isMobile, isTablet, isDesktop } = useMatchMedia()
+  
+  const { data } = useGetBookQuery();
+  console.log(data)
+
 
   const { data } = useGetUserQuery();
 
@@ -44,17 +50,17 @@ const LibraryPage = () => {
     }
   }, [books]);
 
-  return isMobile ? (
-    <StyledLibralyPage>
-      <CategoryLibrary
-        isReadingBooks={isReadingBooks}
-        isReadBooks={isReadBooks}
-        isWantReadToBooks={isWantReadToBooks}
-      />
-      <LinkPageAdd />
-    </StyledLibralyPage>
-  ) : (
-    <StyledLibralyPage>
+
+
+
+  return isMobile ? (<StyledLibralyPage>
+    <CategoryLibrary
+      isReadingBooks={isReadingBooks}
+      isReadBooks={isReadBooks}
+      isWantReadToBooks={isWantReadToBooks} />
+    <LinkPageAdd />
+  </StyledLibralyPage>)
+    : (<StyledLibralyPage>
       <FormAddBook />
       {books ? (
         <CategoryLibrary

@@ -24,7 +24,9 @@ const StyledPillarDate = styled.td({
 const StyledPillarPage = styled.td((props) => ({
 	width: 50,
 }));
-const StyledPillarRating = styled.td({});
+const StyledPillarRating = styled.td({
+	width: 50,
+});
 const StyledPillarButton = styled.td({});
 
 export {
