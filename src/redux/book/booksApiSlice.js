@@ -6,7 +6,7 @@ export const bookSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getBook: builder.query({
 			query: () => ({
-				url: "/users",
+				url: "/books",
 				method: "GET",
 			}),
 			provaidesTags: ["Books"],
@@ -21,7 +21,7 @@ export const bookSlice = apiSlice.injectEndpoints({
 		}),
 		addBook: builder.mutation({
 			query: (credentials) => ({
-				url: "/users",
+				url: "/books",
 				method: "POST",
 				body: { ...credentials },
 			}),
@@ -35,12 +35,29 @@ export const bookSlice = apiSlice.injectEndpoints({
 				}
 			},
 		}),
+
 		deleteBookId: builder.mutation({
 			query: (id) => ({
-				url: `/users/${id}`,
+				url: `/books/${id}`,
 				method: "GET",
 			}),
 			providesTags: ["Books"],
+		}),
+
+		getBookId: builder.mutation({
+			query: (id) => ({
+				url: `/books/${id}`,
+				method: "GET",
+			}),
+			providesTags: ["Books"],
+			async onQueryStarted(id, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					dispatch(setBooks(data));
+				} catch (error) {
+					console.log(error);
+				}
+			},
 		}),
 	}),
 });

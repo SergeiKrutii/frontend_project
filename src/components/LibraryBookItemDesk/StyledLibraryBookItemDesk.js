@@ -14,8 +14,8 @@ const StyledBookTitle = styled.p((props) => ({
 	fontSize: 12,
 	fontWeight: 500,
 	textAlign: "left",
-	minWidth: props.ifResTrue ? 170 : 273,
-	maxWidth: props.ifResTrue ? 170 : 273,
+	minWidth: props.ifrestrue ? 170 : 273,
+	maxWidth: props.ifrestrue ? 170 : 273,
 	overflow: "hidden",
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
@@ -41,7 +41,7 @@ const StyledBookYear = styled.p((props) => ({
 	width: 40,
 	maxWidth: 40,
 
-	marginLeft: props.ifResTrue ? 0 : 60,
+	marginLeft: props.ifrestrue ? 0 : 60,
 }));
 
 const StyledBookPage = styled.p((props) => ({
@@ -51,7 +51,7 @@ const StyledBookPage = styled.p((props) => ({
 	width: 50,
 	maxWidth: 50,
 
-	marginLeft: props.ifResTrue ? 0 : 20,
+	marginLeft: props.ifrestrue ? 0 : 20,
 }));
 
 export {
