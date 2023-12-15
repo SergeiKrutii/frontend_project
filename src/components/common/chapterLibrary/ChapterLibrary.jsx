@@ -38,16 +38,16 @@ const ChapterLibrary = ({ books }) => {
       <StyledChapterLibraryTableDesk>
         <tbody>
           <tr>
-            <StyledPillarTitle ifResTrue={ifResTrue}>
+            <StyledPillarTitle>
               <StyledText>Назва книги</StyledText>
             </StyledPillarTitle>
-            <StyledPillarAuthor ifResTrue={ifResTrue}>
+            <StyledPillarAuthor>
               <StyledText>Автор</StyledText>
             </StyledPillarAuthor>
-            <StyledPillarDate ifResTrue={ifResTrue}>
+            <StyledPillarDate>
               <StyledText>Рік</StyledText>
             </StyledPillarDate>
-            <StyledPillarPage ifResTrue={ifResTrue}>
+            <StyledPillarPage>
               <StyledText>Стор.</StyledText>
             </StyledPillarPage>
 
@@ -62,7 +62,7 @@ const ChapterLibrary = ({ books }) => {
       </StyledChapterLibraryTableDesk>
       {books.map((book) => {
         return (
-          <LibraryBookItem ifResTrue={ifResTrue} key={book.title} book={book} />
+          <LibraryBookItem $ifrestrue={ifResTrue} key={book.title} book={book} />
         );
       })}
     </>

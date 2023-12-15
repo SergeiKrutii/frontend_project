@@ -4,6 +4,8 @@ import { useMatchMedia } from "helpers/mediaQuery";
 
 import CategoryLibrary from "components/common/сategoryLibrary/CategoryLibrary";
 
+import { useGetBookQuery } from "redux/book/booksApiSlice";
+
 import { StyledLibralyPage } from "./StyledLibralyPage";
 import LinkPageAdd from "components/common/LinkPageAdd";
 import FormAddBook from "components/common/formAddBook/FormAddBook";
@@ -14,7 +16,10 @@ const LibraryPage = () => {
   const [isReadBooks, setIsReadBooks] = useState([])
   const [isWantReadToBooks, setWantReadToBooks] = useState([])
   const [isReadingBooks, setIsReadingBooks] = useState([])
-  const {isMobile, isTablet, isDesktop} = useMatchMedia()
+  const { isMobile, isTablet, isDesktop } = useMatchMedia()
+  
+  const { data } = useGetBookQuery();
+  console.log(data)
 
     useEffect(() => {
         import('./books.json')
@@ -32,6 +37,8 @@ const LibraryPage = () => {
       setWantReadToBooks(wantRead);
     }
   }, [books]);
+
+
 
   return isMobile ? (<StyledLibralyPage>
     <CategoryLibrary

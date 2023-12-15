@@ -37,7 +37,7 @@ const StarRating = ({ starSize, readOnly }) => {
       {[1, 2, 3, 4, 5].map((value) => (
         <StarItem
           key={value}
-          active={value.toString()}
+          $active={value.toString()}
           value={value}
           onClick={() => handleStarClick(value)}
           className={value <= rating ? 'star__item_select' : ''}

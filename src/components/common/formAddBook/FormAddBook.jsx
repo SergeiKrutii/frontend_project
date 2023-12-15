@@ -7,7 +7,7 @@ import {
   StyledInputWrapper,
   StyledLabel,
   StyledFormBtn,
-  StyledInputName,
+  StyledInputTitle,
   StyledInputAuthor,
   StyledInputYear,
   StyledInputPages,
@@ -16,31 +16,52 @@ import {
   StyledFormDestopBox,
 } from './StyledFormAddBook'
 
+import { useAddBookMutation } from 'redux/book/booksApiSlice'
+
 const FormAddBook = props => {
   const { isMobile, isDesktop } = useMatchMedia()
-  
+  const [setBooks] = useAddBookMutation();
+
+
   const formik = useFormik({
     initialValues: {
-      name: "",
+      title: "",
       author: "",
-      year: "",
-      pages: "",
+      publication_date: "",
+      amount_page: "",
+    },
+
+    onSubmit: (values) => {
+      const newBook = {
+        title: values.title,
+        author: values.author,
+        publication_date: values.publication_date,
+        amount_page: values.amount_page
+      }
+
+      setTimeout(() => {
+        setBooks(newBook)
+      }, 500)
+
+      // formik.resetForm();
     }
   })
 
+  
+
+
   return isMobile ? (
-      <>
-      <StyledForm>
+      <StyledForm onSubmit={formik.handleSubmit}>
           <StyledInputWrapper>
-              <StyledInputName
-                  id='name'
-                  name='name'
+              <StyledInputTitle
+                  id='title'
+                  name='title'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                  onChange={formik.handleChange}
+                  value={formik.values.title}
               />
-              <StyledLabel htmlFor="name">Назва книги</StyledLabel>
+              <StyledLabel htmlFor="title">Назва книги</StyledLabel>
           </StyledInputWrapper>
 
           <StyledInputWrapper>
@@ -49,54 +70,52 @@ const FormAddBook = props => {
                   name='author'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                onChange={formik.handleChange}
+                value={formik.values.author}
               />
               <StyledLabel htmlFor="author">Автор книги</StyledLabel>
           </StyledInputWrapper>
 
           <StyledInputWrapper>
               <StyledInputYear
-                  id='year'
-                  name='year'
+                  id='publication_date'
+                  name='publication_date'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                onChange={formik.handleChange}
+                value={formik.values.publication_date}
               />
-              <StyledLabel htmlFor="year">Рік випуску</StyledLabel>
+              <StyledLabel htmlFor="publication_date">Рік випуску</StyledLabel>
           </StyledInputWrapper>
 
           <StyledInputWrapper>
               <StyledInputPages
-                  id='pages'
-                  name='pages'
+                  id='amount_page'
+                  name='amount_page'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                  onChange={formik.handleChange}
+                  value={formik.values.amount_page}
               />
-              <StyledLabel htmlFor="pages">Кількість сторінок</StyledLabel>
+              <StyledLabel htmlFor="amount_page">Кількість сторінок</StyledLabel>
           </StyledInputWrapper>
+          <StyledFormBtn type='submit'>Додати</StyledFormBtn>
         </StyledForm>
-          <StyledFormBtn type='button'>Додати</StyledFormBtn>
-      </>
-      
   ) : (
       <StyledFormMobileBox>
-      <StyledForm>
+      <StyledForm onSubmit={formik.handleSubmit}>
           <StyledInputWrapper>
-              <StyledLabel htmlFor="name">Назва книги</StyledLabel>
-              <StyledInputName
-                  id='name'
-                  name='name'
+              <StyledLabel htmlFor="title">Назва книги</StyledLabel>
+              <StyledInputTitle
+                  id='title'
+                  name='title'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                  onChange={formik.handleChange}
+                  value={formik.values.title}
               />
           </StyledInputWrapper>
-<StyledInputWrapperBoxMobile>
+{/* <StyledInputWrapperBoxMobile> */}
           <StyledInputWrapper>
               <StyledLabel htmlFor="author">Автор книги</StyledLabel>
               <StyledInputAuthor
@@ -104,37 +123,37 @@ const FormAddBook = props => {
                   name='author'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                  onChange={formik.handleChange}
+                  value={formik.values.author}
               />
           </StyledInputWrapper>
 
           <StyledInputWrapper>
-              <StyledLabel htmlFor="year">Рік випуску</StyledLabel>
+              <StyledLabel htmlFor="publication_date">Рік випуску</StyledLabel>
               <StyledInputYear
-                  id='year'
-                  name='year'
+                  id='publication_date'
+                  name='publication_date'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                onChange={formik.handleChange}
+                value={formik.values.publication_date}
               />
           </StyledInputWrapper>
 
           <StyledInputWrapper>
-              <StyledLabel htmlFor="pages">Кількість сторінок</StyledLabel>
+              <StyledLabel htmlFor="amount_page">Кількість сторінок</StyledLabel>
               <StyledInputPages
-                  id='pages'
-                  name='pages'
+                  id='amount_page'
+                  name='amount_page'
                   type="text"
                   placeholder='...'
-                //   onChange={''}
-                //   value={''}
+                  onChange={formik.handleChange}
+                  value={formik.values.amount_page}
               />
             </StyledInputWrapper>
-            </StyledInputWrapperBoxMobile>
+            {/* </StyledInputWrapperBoxMobile> */}
+          <StyledFormBtn type='submit'>Додати</StyledFormBtn>
         </StyledForm>
-          <StyledFormBtn type='button'>Додати</StyledFormBtn>
       </StyledFormMobileBox>)
 }
 

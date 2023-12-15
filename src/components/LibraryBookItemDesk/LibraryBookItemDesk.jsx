@@ -13,17 +13,17 @@ import {
   StyledBookPage,
 } from './StyledLibraryBookItemDesk';
 
-const LibraryBookItemDesk = ({ book, handleClose, handleOpen, open, ifResTrue }) => {
+const LibraryBookItemDesk = ({ book, handleClose, handleOpen, open, ifrestrue }) => {
   const dateStringFromServer  = book.publicztion_date;
   const yearFromString = new Date(dateStringFromServer.replace(/(\d{2}).(\d{2}).(\d{4})/, "$3-$2-$1")).getFullYear();
  
   return (
     <StyledBookItem>
           <SpriteIcon style={{marginLeft: 20}} width="22" height="17" name={"icon-Flat1"} /> 
-          <StyledBookTitle ifResTrue={ifResTrue}>{book.title}</StyledBookTitle>
-          <StyledBookAuthor ifResTrue={ifResTrue}>{book.author}</StyledBookAuthor>
-          <StyledBookYear ifResTrue={ifResTrue}>{yearFromString}</StyledBookYear>
-          <StyledBookPage ifResTrue={ifResTrue}>{book.amout_page}</StyledBookPage>
+          <StyledBookTitle ifrestrue={ifrestrue}>{book.title}</StyledBookTitle>
+          <StyledBookAuthor ifrestrue={ifrestrue}>{book.author}</StyledBookAuthor>
+          <StyledBookYear ifrestrue={ifrestrue}>{yearFromString}</StyledBookYear>
+          <StyledBookPage ifrestrue={ifrestrue}>{book.amout_page}</StyledBookPage>
 
           {book.rating === "Вже прочитано" ? <>
           <StarRating  />
