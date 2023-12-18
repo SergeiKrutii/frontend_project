@@ -42,9 +42,22 @@ const StyledNavItemLink = styled.a`
   text-decoration-line: none;
 `;
 
+const StyledNavItemButton = styled.button`
+  color: #242a37;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 300;
+  text-decoration-line: none;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+`;
+
 export {
   StyledUserNav,
   StyledNavList,
   StyledNavListItemMob,
   StyledNavItemLink,
+  StyledNavItemButton,
 };

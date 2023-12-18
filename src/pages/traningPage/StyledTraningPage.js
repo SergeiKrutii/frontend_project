@@ -5,9 +5,15 @@ const StyledTraningPage = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 
+  padding-bottom: 50px;
+
   min-height: 910px;
 
   background-color: #f6f7fb;
+
+  @media screen and (min-width: 768px) {
+    padding-bottom: 60px;
+  }
 
   @media screen and (min-width: 1280px) {
     display: flex;
@@ -15,6 +21,7 @@ const StyledTraningPage = styled.div`
     justify-content: center;
     min-height: 830px;
     margin-bottom: 50px;
+    padding-bottom: 0;
   }
 `;
 

@@ -15,8 +15,8 @@ const avatarStyles = {
   fontSize: "14px",
   fontWeight: "600",
   lineHeight: "38px",
-  width: 25,
-  height: 25,
+  width: 33,
+  height: 33,
 };
 
 const UserAvatar = (props) => {
@@ -27,7 +27,7 @@ const UserAvatar = (props) => {
   return (
     <StyledNavListTablet>
       <StyledNavListItemTablet>
-        <Avatar sx={{ bgcolor: "#F5F7FA", ...avatarStyles }}>
+        <Avatar sx={{ bgcolor: "#F5F7FA", ...avatarStyles }} style={{}}>
           {firstLetter}
         </Avatar>
       </StyledNavListItemTablet>
