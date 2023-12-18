@@ -27,12 +27,12 @@ const AddTraningMobPage = (props) => {
   const [onShow, setOnShow] = useState({ dateStart: false, dateEnd: false });
   const { isMobile } = useMatchMedia();
 
-  const isDatePicked =
+  let isDatePicked =
     beginDate === "" || endDate === "" || book === "Обрати книги з бібліотеки";
 
-  function handleClick() {
+  const handleClick = () => {
     console.log("click");
-  }
+  };
 
   const books = [
     "Властелин колец",
@@ -77,10 +77,10 @@ const AddTraningMobPage = (props) => {
 
   const onChangeDate = (newDate, e) => {
     if (e === "dateStart") {
-      setBeginDate(format(newDate, "dd MM yyyy"));
+      setBeginDate(format(newDate, "dd.MM.yyyy"));
       handleToggleCalendar({ currentTarget: { id: e } });
     } else {
-      setEndDate(format(newDate, "dd MM yyyy"));
+      setEndDate(format(newDate, "dd.MM.yyyy"));
       handleToggleCalendar({ currentTarget: { id: e } });
     }
   };
@@ -150,7 +150,13 @@ const AddTraningMobPage = (props) => {
               ))}
           </StyledTraningBooksSelect>
 
-          <StyledAddTraningButton type="submit">Додати</StyledAddTraningButton>
+          <StyledAddTraningButton
+            onClick={handleClick}
+            type="button"
+            disabled={isDatePicked}
+          >
+            Додати
+          </StyledAddTraningButton>
         </StyledAddTraningWrapper>
       </StyledAddTraningContainer>
     </Container>

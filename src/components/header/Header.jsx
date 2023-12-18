@@ -1,6 +1,5 @@
 import { useMatchMedia } from "helpers/mediaQuery";
 import { StyledHeader, StyledTitle } from "./StyledHeader";
-import { useLocation } from "react-router-dom";
 import UserNav from "components/common/userNav";
 import UserAvatar from "components/common/userAvatar/UserAvatar";
 import { useSelector } from "react-redux";
@@ -11,18 +10,12 @@ const Header = () => {
   const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
 
   const devSize = isDesktop || isTablet;
-  const { pathname } = useLocation();
-  const page =
-    pathname === "/library" ||
-    pathname === "/traning" ||
-    pathname === "/addtraningform" ||
-    pathname === "/addbook";
 
   return (
-    <StyledHeader $location={page}>
+    <StyledHeader $location={isLoggedIn}>
       <StyledTitle>BR</StyledTitle>
       {devSize && isLoggedIn && <UserAvatar />}
-      {page && <UserNav />}
+      {isLoggedIn && <UserNav />}
     </StyledHeader>
   );
 };

@@ -3,17 +3,26 @@ import { mobileChart, desctopChart } from "./ChartConfig";
 import { StyledChartContainer, StyledChartParagraph } from "./StyledChart";
 import { useMatchMedia } from "helpers/mediaQuery";
 import { Link } from "react-router-dom";
+import LinkPageAdd from "components/common/LinkPageAdd";
 
 const Chart = (props) => {
   const { isMobile, isDesktop, isTablet } = useMatchMedia();
 
+  // const chartDate = {
+  //   planPages: [25, 25, 25],
+  //   days: [26, 24, 26],
+  // };
+  // const chartDateT = {
+  //   planPages: [25, 25, 25, 25, 25, 25],
+  //   days: [26, 24, 26, 33, 21, 27],
+  // };
   const chartDate = {
-    planPages: [25, 25, 25],
-    days: [26, 24, 26],
+    planPages: [],
+    days: [0],
   };
   const chartDateT = {
-    planPages: [25, 25, 25, 25, 25, 25],
-    days: [26, 24, 26, 33, 21, 27],
+    planPages: [],
+    days: [0],
   };
 
   return (
@@ -24,7 +33,9 @@ const Chart = (props) => {
       {isMobile && mobileChart(chartDate)}
       {isTablet && desctopChart(chartDateT, 215)}
       {isDesktop && desctopChart(chartDateT, 175)}
-      <Link to={"/addtraningform"}>Go to form</Link>
+      {isMobile && (
+        <LinkPageAdd page={"/addtraningform"}>Go to form</LinkPageAdd>
+      )}
     </StyledChartContainer>
   );
 };

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-
+import { motion } from "framer-motion";
 import MyGoals from "components/myGoals/MyGoals";
 import Chart from "components/Chart/Chart";
 import Container from "components/common/container";
@@ -13,10 +13,21 @@ import {
 } from "./StyledTraningPage";
 import Timer from "components/timer/Timer";
 import AddResult from "components/addResult/AddResult";
+import LibraryBookItemMob from "components/common/LibraryBookItemMob";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import authSelectors from "redux/auth/authSelectors";
+import LibraryBookItem from "components/common/libraryBookItem/LibraryBookItem";
+import { useGetBookQuery } from "redux/book/booksApiSlice";
+import ChapterLibrary from "components/common/chapterLibrary/ChapterLibrary";
+import BookItemTmp from "components/common/LibraryBookItemMob/BookItemTmp/BookItemTmp";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const TraningPage = (props) => {
   const { isMobile, isTablet, isDesktop } = useMatchMedia();
-  const isTimerShow = true;
+  const isTimerShow = false;
+  const token = useSelector(authSelectors.selectToken);
+  const { data: bookss } = useGetBookQuery(token ?? skipToken);
 
   const start = Date.now();
 
@@ -44,23 +55,25 @@ const TraningPage = (props) => {
         )}
         <MyGoals books={books} />
         <SpriteIcon name={"icon_traningLine"} />
-        <div
-          style={{
-            width: "270px",
-            height: "161px",
-            backgroundColor: "#B1B5C2",
-          }}
-        >
-          Component template
-        </div>
+        {books.length === 0 ? (
+          <BookItemTmp />
+        ) : (
+          <ChapterLibrary books={bookss} />
+        )}
+
         <Chart />
-        <AddResult />
+        {/* <AddResult /> */}
       </StyledTraningPage>
     </Container>
   );
 
   const tabletMarcup = (
-    <StyledTraningPage>
+    <StyledTraningPage
+      as={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1, transition: { duration: 0.1 } }}
+    >
       <MyGoals books={books} />
       {isTimerShow && (
         <StyledTraningTimerWrapper $timer={isTimerShow}>
@@ -72,23 +85,20 @@ const TraningPage = (props) => {
         </StyledTraningTimerWrapper>
       )}
       <AddTraningMobPage />
-
-      <div
-        style={{
-          width: "270px",
-          height: "161px",
-          backgroundColor: "#B1B5C2",
-        }}
-      >
-        Component template
-      </div>
+      <ChapterLibrary books={bookss} />
       <Chart />
-      <AddResult />
+      {/* <AddResult /> */}
     </StyledTraningPage>
   );
 
   const desctopMarcup = (
-    <Container>
+    <Container
+      as={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <StyledTraningPage>
         <div>
           {isTimerShow && (
@@ -102,15 +112,10 @@ const TraningPage = (props) => {
           )}
           <AddTraningMobPage />
 
-          <div
-            style={{
-              width: "270px",
-              height: "161px",
-              backgroundColor: "#B1B5C2",
-            }}
-          >
-            Component template
-          </div>
+          {bookss?.map((book) => {
+            return <LibraryBookItem key={book.title} book={book} />;
+          })}
+
           <Chart />
         </div>
         <div style={{ marginLeft: "41px" }}>

@@ -30,60 +30,32 @@ function mobileChart(chartDate) {
     responsive: true,
     layout: {
       padding: {
-        //   left: 40,
         right: 20,
+        left: 10,
         top: 30,
-        // bottom: 0,
       },
     },
-    elements: {
-      point: {},
-    },
-    // indexAxis: "x",
     plugins: {
-      // legend: {
-      //   display: false,
-      // },
       filter: " drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
     },
     scales: {
-      // legend: {
-      //   display: false,
-      //   position: "bottom",
-      // },
-
       x: {
         grid: {
-          // drawOnChartArea: false,
           drawTicks: false,
-          // tickBorderDash: [100],
-
-          offset: false,
+          offset: true,
           lineWidth: 1,
-          // color: "red",
-          // tickLength: 30,
-          // z: 11,
         },
         ticks: {
           display: false,
         },
       },
-
       y: {
         grid: {
           lineWidth: 0,
           borderColor: "transparent",
-          // display: false,
         },
         ticks: {
-          // stepSize: 1,
-
           display: false,
-          // labelOffset: -15,
-          // align: "end",
-          // mirror: true,
-
-          // padding: 0,
         },
       },
     },
@@ -91,16 +63,19 @@ function mobileChart(chartDate) {
 
   const data = {
     labels,
+
     datasets: [
       {
         label: "ПЛАН",
         data: chartDate.planPages,
+
         datalabels: {
           display: function (context) {
             return context.dataIndex === context.dataset.data.length - 1;
           },
-          align: "end",
-          anchor: "end",
+          align: "start",
+          anchor: "start",
+          offset: 5,
           backgroundColor: "#F5F7FA",
           boxShadow: "0px 2px 3px 0px rgba(9, 30, 63, 0.10)",
           fontFamily: "Monserrat",
@@ -116,9 +91,8 @@ function mobileChart(chartDate) {
           formatter: function (value, context) {
             return "ПЛАН";
           },
+
           clip: false, // Позволяет лейблам выходить за пределы графика
-          // textAlign: "end",
-          // textBaseline: "middle",
         },
         filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
         borderWidth: 4,

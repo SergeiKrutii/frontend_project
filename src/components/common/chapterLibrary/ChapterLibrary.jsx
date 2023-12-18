@@ -15,23 +15,31 @@ import {
   StyledPillarRating,
   StyledPillarButton,
   StyledText,
+  StyledChapterButton,
 } from "./StyledChapterLibrary";
+import { useLocation } from "react-router-dom";
 
 const ChapterLibrary = ({ books }) => {
   const { isMobile } = useMatchMedia();
   const [ifResTrue, setifResTrue] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (books.length > 0 && books[0].rating === "Вже прочитано") {
+    if (books?.length > 0 && books[0].rating === "Вже прочитано") {
       setifResTrue(true);
     }
   }, [books]);
 
   return isMobile ? (
     <StyledChapterLibrary>
-      {books.map((book) => {
+      {books?.map((book) => {
         return <LibraryBookItem key={book.title} book={book} />;
       })}
+      {pathname === "/traning" && (
+        <StyledChapterButton type="button">
+          Почати тренування
+        </StyledChapterButton>
+      )}
     </StyledChapterLibrary>
   ) : (
     <>
@@ -50,7 +58,6 @@ const ChapterLibrary = ({ books }) => {
             <StyledPillarPage>
               <StyledText>Стор.</StyledText>
             </StyledPillarPage>
-
             {ifResTrue && (
               <StyledPillarRating>
                 <StyledText>Рейтинг</StyledText>
@@ -60,9 +67,13 @@ const ChapterLibrary = ({ books }) => {
           </tr>
         </tbody>
       </StyledChapterLibraryTableDesk>
-      {books.map((book) => {
+      {books?.map((book) => {
         return (
-          <LibraryBookItem $ifrestrue={ifResTrue} key={book.title} book={book} />
+          <LibraryBookItem
+            $ifrestrue={ifResTrue}
+            key={book.title}
+            book={book}
+          />
         );
       })}
     </>

@@ -3,11 +3,6 @@ import styled from "styled-components";
 const StyledNavListTablet = styled.ul`
   display: flex;
   align-items: center;
-  /* margin-right: 151px; */
-
-  @media screen and (min-width: 1280px) {
-    /* margin-right: 470px; */
-  }
 `;
 
 const StyledNavListItemTablet = styled.li`

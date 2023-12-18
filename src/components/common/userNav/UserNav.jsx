@@ -10,23 +10,16 @@ import {
   StyledNavList,
   StyledNavListItemMob,
   StyledNavItemLink,
+  StyledNavItemButton,
   StyledNavListItemTablet,
   StyledNavListTablet,
   StyledNavParagraphTablet,
 } from "./StyledUserNav";
-
-const avatarStyles = {
-  color: "#242A37",
-  fontFamily: "Montserrat",
-  fontSize: "14px",
-  fontWeight: "600",
-  lineHeight: "38px",
-  width: 25,
-  height: 25,
-};
+import { useLogoutMutation } from "redux/auth/authApiSlice";
 
 const UserNav = ({ children }) => {
   const userName = useSelector(authSelectors.selectName);
+  const [logout] = useLogoutMutation();
 
   let firstLetter = userName.slice(0, 1).toUpperCase();
   const { isMobile } = useMatchMedia();
@@ -48,10 +41,12 @@ const UserNav = ({ children }) => {
             <SpriteIcon name={"icon_headerLine"} />
           </StyledNavListItemMob>
           <StyledNavListItemMob>
-            <Avatar sx={{ bgcolor: "#F5F7FA" }}>{firstLetter}</Avatar>
+            <Avatar sx={{ bgcolor: "#F5F7FA", color: "#242A37" }}>
+              {firstLetter}
+            </Avatar>
           </StyledNavListItemMob>
           <StyledNavListItemMob>
-            <StyledNavItemLink href="/logout">Вихід</StyledNavItemLink>
+            <StyledNavItemButton onClick={logout}>Вихід</StyledNavItemButton>
           </StyledNavListItemMob>
         </StyledNavList>
       ) : (
@@ -71,19 +66,9 @@ const UserNav = ({ children }) => {
               <SpriteIcon name={"icon_headerLine"} />
             </StyledNavListItemMob>
             <StyledNavListItemMob>
-              <StyledNavItemLink href="/logout">Вихід</StyledNavItemLink>
+              <StyledNavItemButton onClick={logout}>Вихід</StyledNavItemButton>
             </StyledNavListItemMob>
           </StyledNavList>
-          {/* <StyledNavListTablet>
-            <StyledNavListItemTablet>
-              <Avatar sx={{ bgcolor: "#F5F7FA", ...avatarStyles }}>
-                {firstLetter}
-              </Avatar>
-            </StyledNavListItemTablet>
-            <StyledNavListItemTablet>
-              <StyledNavParagraphTablet>{userName}</StyledNavParagraphTablet>
-            </StyledNavListItemTablet>
-          </StyledNavListTablet> */}
         </>
       )}
     </StyledUserNav>

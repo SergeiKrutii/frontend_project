@@ -73,7 +73,18 @@ const SpriteIcon = ({ name, ...props }) => {
         marginTop: "25px",
       };
       break;
-
+    case "icon_delete":
+      iconStyles = {
+        height: "18px",
+        width: "14px",
+      };
+      break;
+    case "icon-Flat1":
+      iconStyles = {
+        height: "17px",
+        width: "22px",
+      };
+      break;
 
     default:
       break;
