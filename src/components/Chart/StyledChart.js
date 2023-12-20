@@ -26,8 +26,9 @@ const StyledChartContainer = styled.div`
   }
 
   @media screen and (min-width: 768px) and (max-width: 1279px) {
-    width: 598px;
+    width: 606px;
     height: auto;
+    margin-top: 0;
 
     padding: 25px 36px 50px 36px;
 

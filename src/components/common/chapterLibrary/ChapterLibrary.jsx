@@ -17,7 +17,9 @@ import {
   StyledText,
   StyledChapterButton,
 } from "./StyledChapterLibrary";
+
 import { useLocation } from "react-router-dom";
+import TmpLibraryBookItemDesk from "components/LibraryBookItemDesk/TmpLibraryBookItemDesk/TmpLibraryBookItemDesk";
 
 const ChapterLibrary = ({ books }) => {
   const { isMobile } = useMatchMedia();
@@ -67,15 +69,19 @@ const ChapterLibrary = ({ books }) => {
           </tr>
         </tbody>
       </StyledChapterLibraryTableDesk>
-      {books?.map((book) => {
-        return (
-          <LibraryBookItem
-            $ifrestrue={ifResTrue}
-            key={book.title}
-            book={book}
-          />
-        );
-      })}
+      {books?.length === 0 ? (
+        <TmpLibraryBookItemDesk />
+      ) : (
+        books?.map((book) => {
+          return (
+            <LibraryBookItem
+              $ifrestrue={ifResTrue}
+              key={book.title}
+              book={book}
+            />
+          );
+        })
+      )}
     </>
   );
 };

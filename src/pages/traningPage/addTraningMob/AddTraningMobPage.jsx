@@ -16,30 +16,37 @@ import {
 } from "./StyledAddTraningMobPage";
 import SpriteIcon from "components/common/spriteIcon/SpriteIcon";
 import { format } from "date-fns";
+import { useGetBookQuery } from "redux/book/booksApiSlice";
 import GetBackButton from "components/common/getBackButton/GetBackButton";
 import Container from "components/common/container/Container";
 import { useMatchMedia } from "helpers/mediaQuery";
+import { useSelector } from "react-redux";
+import authSelectors from "redux/auth/authSelectors";
+import { skipToken } from "@reduxjs/toolkit/query";
 
-const AddTraningMobPage = (props) => {
+const AddTraningMobPage = ({ setGoalBooks, books }) => {
   const [book, setBook] = useState("Обрати книги з бібліотеки");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [onShow, setOnShow] = useState({ dateStart: false, dateEnd: false });
+  // const token = useSelector(authSelectors.selectToken);
+  // const { data: books } = useGetBookQuery(token ?? skipToken);
   const { isMobile } = useMatchMedia();
 
   let isDatePicked =
     beginDate === "" || endDate === "" || book === "Обрати книги з бібліотеки";
 
   const handleClick = () => {
-    console.log("click");
+    const finded = books.find((elem) => elem.title === book);
+    setGoalBooks(finded);
   };
 
-  const books = [
-    "Властелин колец",
-    "Гордость и предубеждение",
-    "Тёмные начала",
-    "Автостопом по галактике",
-  ];
+  // const books = [
+  //   "Властелин колец",
+  //   "Гордость и предубеждение",
+  //   "Тёмные начала",
+  //   "Автостопом по галактике",
+  // ];
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////               А так можно?
@@ -144,8 +151,8 @@ const AddTraningMobPage = (props) => {
             </option>
             {books &&
               books.map((elem, idx) => (
-                <option key={`${idx}${elem}`} value={`${elem}`}>
-                  {elem}
+                <option key={`${idx}${elem.title}`} value={`${elem.title}`}>
+                  {elem.title}
                 </option>
               ))}
           </StyledTraningBooksSelect>
@@ -213,8 +220,8 @@ const AddTraningMobPage = (props) => {
           </option>
           {books &&
             books.map((elem, idx) => (
-              <option key={`${idx}${elem}`} value={`${elem}`}>
-                {elem}
+              <option key={`${idx}${elem.title}`} value={`${elem.title}`}>
+                {elem.title}
               </option>
             ))}
         </StyledTraningBooksSelect>
