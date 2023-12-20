@@ -15,20 +15,18 @@ import Timer from "components/timer/Timer";
 import AddResult from "components/addResult/AddResult";
 import LibraryBookItemMob from "components/common/LibraryBookItemMob";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import authSelectors from "redux/auth/authSelectors";
+
 import LibraryBookItem from "components/common/libraryBookItem/LibraryBookItem";
-import { useGetBookQuery } from "redux/book/booksApiSlice";
+
 import ChapterLibrary from "components/common/chapterLibrary/ChapterLibrary";
 import BookItemTmp from "components/common/LibraryBookItemMob/BookItemTmp/BookItemTmp";
-import { skipToken } from "@reduxjs/toolkit/query";
+
+import TmpLibraryBookItemDesk from "components/LibraryBookItemDesk/TmpLibraryBookItemDesk/TmpLibraryBookItemDesk";
 
 const TraningPage = (props) => {
+  const [books, setBooks] = useState([]);
   const { isMobile, isTablet, isDesktop } = useMatchMedia();
   const isTimerShow = false;
-  const token = useSelector(authSelectors.selectToken);
-  const { data: bookss } = useGetBookQuery(token ?? skipToken);
-
   const start = Date.now();
 
   const end = (year) => {
@@ -37,12 +35,7 @@ const TraningPage = (props) => {
 
   const deadline = new Date(end - start);
 
-  const books = [
-    "Властелин колец",
-    "Гордость и предубеждение",
-    "Тёмные начала",
-    "Автостопом по галактике",
-  ];
+  // const books = [];
 
   const mobMarcup = (
     <Container>
@@ -55,10 +48,10 @@ const TraningPage = (props) => {
         )}
         <MyGoals books={books} />
         <SpriteIcon name={"icon_traningLine"} />
-        {books.length === 0 ? (
+        {books?.length === 0 ? (
           <BookItemTmp />
         ) : (
-          <ChapterLibrary books={bookss} />
+          <ChapterLibrary books={books} />
         )}
 
         <Chart />
@@ -84,8 +77,10 @@ const TraningPage = (props) => {
           <Timer title={"До досягнення мети залишилось"} />
         </StyledTraningTimerWrapper>
       )}
-      <AddTraningMobPage />
-      <ChapterLibrary books={bookss} />
+      <AddTraningMobPage setGoalBooks={setBooks} books={books} />
+
+      <ChapterLibrary books={books} />
+
       <Chart />
       {/* <AddResult /> */}
     </StyledTraningPage>
@@ -112,7 +107,7 @@ const TraningPage = (props) => {
           )}
           <AddTraningMobPage />
 
-          {bookss?.map((book) => {
+          {books?.map((book) => {
             return <LibraryBookItem key={book.title} book={book} />;
           })}
 

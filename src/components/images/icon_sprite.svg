@@ -75,5 +75,8 @@
 <symbol id="icon_dateArrow" viewBox="0 0 69 32">
 <path d="M34.667 32l-30.022-28h60.045l-30.022 28z"></path>
 </symbol>
+<symbol id="icon_traningLineDesc" viewBox="0 0 21696 32">
+<path fill="none" stroke="#e0e5eb" style="stroke: var(--color1, #e0e5eb)" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="32" d="M0 16l21696-0.002"></path>
+</symbol>
 </defs>
 </svg>

@@ -85,6 +85,12 @@ const SpriteIcon = ({ name, ...props }) => {
         width: "22px",
       };
       break;
+    case "icon_traningLineDesc":
+      iconStyles = {
+        height: "1px",
+        width: "100%",
+      };
+      break;
 
     default:
       break;
