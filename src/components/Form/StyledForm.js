@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 const StyledFormContainer = styled.div`
-  /* width: 320px;
-  height: 648px; */
   @media screen and (min-width: 768px) {
     background-color: #fff;
     color: #898f9f;
@@ -84,15 +82,20 @@ const StyledInput = styled.input`
   background: #f5f7fa;
   box-shadow: 0px 1px 2px 0px rgba(29, 29, 27, 0.15) inset;
 
-  color: #a6abb9;
+  color: black;
   font-family: Montserrat;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 38px;
 
   &:nth-child(4) {
     margin-bottom: 30px;
     background-color: red;
+  }
+
+  &:focus {
+    border: none;
+    outline: none;
   }
 `;
 

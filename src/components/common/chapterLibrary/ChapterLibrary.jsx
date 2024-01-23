@@ -17,14 +17,24 @@ import {
   StyledText,
   StyledChapterButton,
 } from "./StyledChapterLibrary";
-
+import goalsSelectors from "redux/goal/goalsSelectors";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import TmpLibraryBookItemDesk from "components/LibraryBookItemDesk/TmpLibraryBookItemDesk/TmpLibraryBookItemDesk";
+import BookItemTmp from "../LibraryBookItemMob/BookItemTmp/BookItemTmp";
+import { endOfDay } from "date-fns";
 
-const ChapterLibrary = ({ books }) => {
+const ChapterLibrary = ({ books = [], handleDelete, handleStartTraning }) => {
   const { isMobile } = useMatchMedia();
   const [ifResTrue, setifResTrue] = useState(false);
   const { pathname } = useLocation();
+
+  const beginDate = useSelector(goalsSelectors.selectBeginDate);
+  const endDate = useSelector(goalsSelectors.selectEndDate);
+  const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
+
+  const isButtonVisible =
+    pathname === "/traning" && books.length !== 0 && !isTraningBegin;
 
   useEffect(() => {
     if (books?.length > 0 && books[0].rating === "Вже прочитано") {
@@ -34,11 +44,25 @@ const ChapterLibrary = ({ books }) => {
 
   return isMobile ? (
     <StyledChapterLibrary>
-      {books?.map((book) => {
-        return <LibraryBookItem key={book.title} book={book} />;
-      })}
-      {pathname === "/traning" && (
-        <StyledChapterButton type="button">
+      {books?.length === 0 ? (
+        <BookItemTmp />
+      ) : (
+        books?.map((book, idx) => {
+          return (
+            <LibraryBookItem
+              key={`${book.title}${idx}`}
+              book={book}
+              handleDelete={handleDelete}
+            />
+          );
+        })
+      )}
+
+      {isButtonVisible && (
+        <StyledChapterButton
+          type="button"
+          onClick={() => handleStartTraning(books, beginDate, endDate)}
+        >
           Почати тренування
         </StyledChapterButton>
       )}
@@ -81,6 +105,14 @@ const ChapterLibrary = ({ books }) => {
             />
           );
         })
+      )}
+      {books?.length !== 0 && (
+        <StyledChapterButton
+          type="button"
+          onClick={() => handleStartTraning(books, beginDate, endDate)}
+        >
+          Почати тренування
+        </StyledChapterButton>
       )}
     </>
   );

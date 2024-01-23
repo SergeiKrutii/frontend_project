@@ -30,7 +30,6 @@ const StyledResultWrapper = styled.div`
 
 const StyledResultTitle = styled.div`
   color: #242a37;
-  /* text-align: center; */
   font-family: Montserrat;
   font-size: 12px;
   font-weight: 600;
@@ -43,16 +42,18 @@ const StyledResultTitle = styled.div`
   }
 `;
 
+const StyledResultsContainer = styled.div`
+  height: 90px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+`;
+
 const StyledResultResultsWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 const StyledResultResults = styled.div`
-  &:not(:last-child) {
-    margin-right: 30px;
-  }
-
   color: #242a37;
   text-align: center;
   font-family: Montserrat;
@@ -175,4 +176,5 @@ export {
   StyledResultForm,
   StyledCalendarWrapper,
   StyledStatisticResult,
+  StyledResultsContainer,
 };

@@ -3,10 +3,11 @@ import styled from "styled-components";
 const StyledGoalsWrapper = styled.div`
   position: relative;
   width: 270px;
-  height: ${({ theme: { quantity } }) => (quantity > 0 ? "215px" : "318px")};
+  height: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "215px" : "318px"};
 
-  margin-bottom: ${({ theme: { quantity } }) =>
-    quantity > 0 ? "30px" : "30px"};
+  margin-bottom: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "30px" : "30px"};
   margin-top: 30px;
 
   background: #fff;
@@ -17,12 +18,14 @@ const StyledGoalsWrapper = styled.div`
     display: flex;
     justify-content: space-between;
 
-    width: ${({ theme: { quantity } }) => (quantity > 0 ? "618px" : "588px")};
-    height: ${({ theme: { quantity } }) => (quantity > 0 ? "90px" : "85px")};
+    width: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "618px" : "588px"};
+    height: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "90px" : "85px"};
     margin: 30px 0px 40px 0px;
 
-    padding: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "20px 30px 15px 30px" : "20px 45px 0px 45px"};
+    padding: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "20px 30px 15px 30px" : "20px 45px 0px 45px"};
 
     box-shadow: none;
   }
@@ -38,14 +41,15 @@ const StyledGoalsCountWrapper = styled.div`
   display: flex;
   justify-content: center;
 
-  margin-top: ${({ theme: { quantity } }) => (quantity > 0 ? "30px" : "55px")};
-  margin-bottom: ${({ theme: { quantity } }) =>
-    quantity > 0 ? "0px" : "55px"};
+  margin-top: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "30px" : "55px"};
+  margin-bottom: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "0px" : "55px"};
 
   @media screen and (min-width: 768px) {
     margin-top: 0px;
-    margin-bottom: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "15px" : "0px"};
+    margin-bottom: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "15px" : "0px"};
   }
   @media screen and (min-width: 768px) {
     margin-bottom: 0;
@@ -75,34 +79,36 @@ const StyledGoalsTitle = styled.p`
   }
 
   @media screen and (min-width: 1280px) {
-    margin-bottom: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "72px" : "55px"};
+    margin-bottom: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "72px" : "55px"};
   }
 `;
 
 const StyledGoalsContainer = styled.div`
-  width: ${({ theme: { quantity } }) => (quantity > 0 ? "63px" : "100px")};
+  width: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "63px" : "100px"};
 
   &:not(:last-child) {
-    margin-right: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "12px" : "20px"};
+    margin-right: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "12px" : "20px"};
   }
 
   @media screen and (min-width: 768px) {
-    width: ${({ theme: { quantity } }) => quantity > 0 && "100px"};
-    height: ${({ theme: { quantity } }) => (quantity > 0 ? "60px" : "100px")};
+    width: ${({ theme: { isTraning } }) => isTraning === true && "100px"};
+    height: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "60px" : "100px"};
     &:not(:last-child) {
-      margin-right: ${({ theme: { quantity } }) =>
-        quantity > 0 ? "12px" : "35px"};
+      margin-right: ${({ theme: { isTraning } }) =>
+        isTraning === true ? "12px" : "35px"};
     }
   }
 
   @media screen and (min-width: 1280px) {
-    width: ${({ theme: { quantity } }) => quantity > 0 && "66px"};
+    width: ${({ theme: { isTraning } }) => isTraning === true && "66px"};
 
     &:not(:last-child) {
-      margin-right: ${({ theme: { quantity } }) =>
-        quantity > 0 ? "12px" : "35px"};
+      margin-right: ${({ theme: { isTraning } }) =>
+        isTraning === true ? "12px" : "35px"};
     }
   }
 `;
@@ -111,9 +117,8 @@ const StyledGoalsCount = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ theme: { quantity } }) => (quantity > 0 ? "63px" : "100px")};
-  /* padding: ${({ theme: { quantity } }) =>
-    quantity > 0 ? "22px 13px" : "31px 37px"}; */
+  height: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "63px" : "100px"};
 
   margin-bottom: 14px;
 
@@ -132,9 +137,6 @@ const StyledGoalsCount = styled.span`
 
   @media screen and (min-width: 768px) and (max-width: 1279px) {
     height: 60px;
-    /* padding: 11px 39px; */
-    /* padding: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "22px 13px" : "11px 39px"}; */
     margin-bottom: 4px;
 
     font-size: 40px;
@@ -157,16 +159,17 @@ const StyledGoalsText = styled.p`
   color: #898f9f;
   text-align: center;
   font-family: Montserrat;
-  font-size: ${({ theme: { quantity } }) => (quantity > 0 ? "11px" : "14px")};
+  font-size: ${({ theme: { isTraning } }) =>
+    isTraning === true ? "11px" : "14px"};
   font-weight: 500;
 
   @media screen and (min-width: 768px) and (max-width: 1279px) {
-    margin-bottom: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "0px" : "8px"};
+    margin-bottom: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "0px" : "8px"};
 
     font-size: 11px;
-    justify-content: ${({ theme: { quantity } }) =>
-      quantity > 0 ? "center" : "start"};
+    justify-content: ${({ theme: { isTraning } }) =>
+      isTraning === true ? "center" : "start"};
   }
 `;
 

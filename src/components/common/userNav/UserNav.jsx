@@ -16,12 +16,21 @@ import {
   StyledNavParagraphTablet,
 } from "./StyledUserNav";
 import { useLogoutMutation } from "redux/auth/authApiSlice";
+import { useState } from "react";
+import MainModal from "../mainModal/MainModal";
+import Warning from "../contentForModal/Warning";
+import NiceJob from "../contentForModal/NiceJob";
+import BetterNextTime from "../contentForModal/BetterNextTime";
 
 const UserNav = ({ children }) => {
   const userName = useSelector(authSelectors.selectName);
-  const [logout] = useLogoutMutation();
+  const [toggleModal, setToggleModal] = useState(false);
 
-  let firstLetter = userName.slice(0, 1).toUpperCase();
+  const handleToggleModal = () => {
+    setToggleModal((prevState) => !prevState);
+  };
+
+  let firstLetter = userName?.slice(0, 1).toUpperCase();
   const { isMobile } = useMatchMedia();
   return (
     <StyledUserNav>
@@ -46,7 +55,9 @@ const UserNav = ({ children }) => {
             </Avatar>
           </StyledNavListItemMob>
           <StyledNavListItemMob>
-            <StyledNavItemButton onClick={logout}>Вихід</StyledNavItemButton>
+            <StyledNavItemButton onClick={handleToggleModal}>
+              Вихід
+            </StyledNavItemButton>
           </StyledNavListItemMob>
         </StyledNavList>
       ) : (
@@ -66,10 +77,20 @@ const UserNav = ({ children }) => {
               <SpriteIcon name={"icon_headerLine"} />
             </StyledNavListItemMob>
             <StyledNavListItemMob>
-              <StyledNavItemButton onClick={logout}>Вихід</StyledNavItemButton>
+              <StyledNavItemButton onClick={handleToggleModal}>
+                Вихід
+              </StyledNavItemButton>
             </StyledNavListItemMob>
           </StyledNavList>
         </>
+      )}
+
+      {toggleModal && (
+        <MainModal
+          open={toggleModal}
+          handleClose={handleToggleModal}
+          component={<Warning handleToggle={handleToggleModal} />}
+        />
       )}
     </StyledUserNav>
   );

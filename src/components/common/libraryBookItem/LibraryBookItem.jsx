@@ -5,7 +5,7 @@ import { useMatchMedia } from "helpers/mediaQuery";
 import LibraryBookItemMob from "../LibraryBookItemMob";
 import LibraryBookItemDesk from "components/LibraryBookItemDesk";
 
-const LibraryBookItem = ({ book, ifrestrue }) => {
+const LibraryBookItem = ({ book, ifrestrue, handleDelete }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -17,6 +17,7 @@ const LibraryBookItem = ({ book, ifrestrue }) => {
       handleOpen={handleOpen}
       handleClose={handleClose}
       book={book}
+      handleDelete={handleDelete}
     />
   ) : (
     <LibraryBookItemDesk
