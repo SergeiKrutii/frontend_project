@@ -1,7 +1,7 @@
 import Container from "./components/common/container/Container";
 import Header from "components/header/Header";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useGetUserQuery } from "redux/auth/authApiSlice";
 import InfoPage from "pages/infoPage";
 import RegisterPage from "pages/registerPage";
@@ -23,11 +23,20 @@ import Layout from "components/Layout/Layout";
 
 const App = () => {
   const { isMobile, isTablet, isDesctop } = useMatchMedia();
-  const deviceSize = isMobile || isTablet;
+  const [booksForGoalsMob, setBooksForGoalsMob] = useState([]);
+  const [dateDiff, setDateDiff] = useState(null);
+
   const token = useSelector(authSelectors.selectToken);
   const location = useLocation();
 
   const { isFetching } = useGetUserQuery(token ?? skipToken);
+
+  const handleDeleteTraningBook = (bookId) => {
+    const filteredBooks = booksForGoalsMob.filter(
+      (book) => book._id !== bookId
+    );
+    setBooksForGoalsMob(filteredBooks);
+  };
 
   return (
     <div>
@@ -41,9 +50,27 @@ const App = () => {
             </Route>
             <Route element={<PrivateRoute />}>
               <Route path="/library" element={<LibraryPage />} />
-              <Route path="/traning" element={<TraningPage />} />
+              <Route
+                path="/traning"
+                element={
+                  <TraningPage
+                    booksForGoal={booksForGoalsMob}
+                    handleDelete={handleDeleteTraningBook}
+                    dateDiff={dateDiff}
+                  />
+                }
+              />
               <Route path="/addbook" element={<AddPage />} />
-              <Route path="/addtraningform" element={<AddTraningMobPage />} />
+              <Route
+                path="/addtraningform"
+                element={
+                  <AddTraningMobPage
+                    setGoalBooks={setBooksForGoalsMob}
+                    books={booksForGoalsMob}
+                    setDateDiff={setDateDiff}
+                  />
+                }
+              />
             </Route>
           </Route>
         </Routes>
@@ -70,6 +97,7 @@ const App = () => {
                   <Route element={<PrivateRoute />}>
                     <Route path="/library" element={<LibraryPage />} />
                     <Route path="/traning" element={<TraningPage />} />
+                    <Route path="*" element={<TraningPage />} />
                   </Route>
                   <Route />
                 </Route>

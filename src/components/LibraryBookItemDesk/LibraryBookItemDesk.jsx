@@ -45,7 +45,7 @@ const LibraryBookItemDesk = ({
         <StyledBookPage ifrestrue={ifrestrue}>
           {book?.amount_page}
         </StyledBookPage>
-        {pathname === "/location" && (
+        {pathname === "/traning" && (
           <StyledBookButton onClick={handleDelete}>
             <SpriteIcon name={"icon_delete"} />
           </StyledBookButton>

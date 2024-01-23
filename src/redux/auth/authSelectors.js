@@ -3,6 +3,7 @@ const selectName = (state) => state.auth.userData?.name;
 const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 const selectIsRefreshing = (state) => state.auth.isRefreshing;
 const selectToken = (state) => state.auth.token;
+const selectHaveGoal = (state) => state.auth.haveGoal;
 
 const authSelectors = {
   selectEmail,
@@ -10,6 +11,7 @@ const authSelectors = {
   selectIsLoggedIn,
   selectIsRefreshing,
   selectToken,
+  selectHaveGoal,
 };
 
 export default authSelectors;

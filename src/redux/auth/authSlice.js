@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userData: { name: "", email: null, id: null, books: [] },
+  userData: { name: "", email: null, id: null },
   isLoggedIn: false,
   token: null,
   isRefreshing: false,
+  haveGoal: false,
 };
 
 const authSlice = createSlice({
@@ -12,17 +13,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setLoginData: (state, { payload }) => {
-      // console.log("🚀 ~ payload LOGIN:", payload);
       state.token = payload.token;
       state.userData.email = payload.user.email;
       state.userData.name = payload.user.name;
       state.isLoggedIn = true;
+    },
+    setCurrentGoal: (state, { payload }) => {
+      state.haveGoal = true;
     },
     setUser: (state, { payload }) => {
       state.userData.email = payload.email;
       state.userData.name = payload.name;
       state.userData.id = payload._id;
       state.isLoggedIn = true;
+      state.haveGoal = payload.haveGoal;
     },
     setLogout: (state, { payload }) => {
       return initialState;
@@ -30,6 +34,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoginData, setLogout, setUser } = authSlice.actions;
+export const { setLoginData, setLogout, setUser, setCurrentGoal } =
+  authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import StyledMainButton from "./StyledMainButton";
 import { useMatchMedia } from "helpers/mediaQuery";
+import { logRegBtn, addResult, modalBtn } from "./StyledMainButton";
 
 const MainButton = ({
   text,
@@ -13,31 +14,12 @@ const MainButton = ({
   const { isMobile, isTablet, isDesktop } = useMatchMedia();
   const deviceSize = isTablet || isDesktop;
 
-  const logRegBtn = {
-    fontSize: "16px",
-    fontWeight: 600,
-    lineHeight: "38px",
-    width: "270px",
-    height: "60px",
-    color: "#fff",
-  };
-
-  const addResult = {
-    width: isMobile ? "171px" : "240px",
-    height: "42px",
-    color: "#FFF",
-    textAlign: "center",
-    fontFamily: "Montserrat",
-    fontSize: isMobile ? "14px" : "16px",
-    fontWeight: isMobile ? "500" : "600",
-    lineHeight: "38px",
-    border: "none",
-  };
-
   const typeOfButton =
     text === "Зареєструватись" || text === "Увійти"
       ? { ...props, ...logRegBtn }
-      : { ...props, ...addResult };
+      : text === "Вийти" || text === "Відміна" || text === "OK"
+      ? { ...props, ...modalBtn(isMobile, text) }
+      : { ...props, ...addResult(isMobile) };
 
   return (
     <StyledMainButton

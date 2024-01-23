@@ -91,6 +91,20 @@ const SpriteIcon = ({ name, ...props }) => {
         width: "100%",
       };
       break;
+    case "icon_checkbox":
+      iconStyles = {
+        height: "14px",
+        width: "14px",
+        backGroundOrigin: "border-box",
+        cursor: "pointer",
+      };
+      break;
+    case "icon_goodJob":
+      iconStyles = {
+        height: "54px",
+        width: "54px",
+      };
+      break;
 
     default:
       break;

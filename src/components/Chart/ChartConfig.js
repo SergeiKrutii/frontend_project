@@ -24,7 +24,7 @@ function mobileChart(chartDate) {
   if (!chartDate) {
     return;
   }
-  const labels = [...chartDate.days];
+  const labels = [...chartDate.factPagePerDay];
 
   const options = {
     responsive: true,
@@ -103,7 +103,7 @@ function mobileChart(chartDate) {
       },
       {
         label: "ФАКТ",
-        data: chartDate.days.map((elem) => elem),
+        data: chartDate.factPagePerDay.map((elem) => elem),
         datalabels: {
           display: function (context) {
             return context.dataIndex === context.dataset.data.length - 1;
@@ -140,7 +140,7 @@ function desctopChart(chartDate, width) {
   if (!chartDate) {
     return;
   }
-  const labels = [...chartDate.days];
+  const labels = [...chartDate.factPagePerDay];
 
   const options = {
     responsive: true,
@@ -245,7 +245,7 @@ function desctopChart(chartDate, width) {
       },
       {
         label: "ФАКТ",
-        data: chartDate.days.map((elem) => elem),
+        data: chartDate.factPagePerDay.map((elem) => elem),
         datalabels: {
           display: function (context) {
             return context.dataIndex === context.dataset.data.length - 1;

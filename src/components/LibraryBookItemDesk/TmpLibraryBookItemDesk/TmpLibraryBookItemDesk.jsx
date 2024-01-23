@@ -18,7 +18,7 @@ import StarRating from "components/common/starRating/StarRating";
 
 const TmpLibraryBookItemDesk = () => {
   return (
-    <div style={{ marginBottom: 50 }}>
+    <>
       <SpriteIcon name={"icon_traningLineDesc"} />
       <StyledBookItemTmp>
         <SpriteIcon
@@ -30,7 +30,7 @@ const TmpLibraryBookItemDesk = () => {
         <StyledBookTitleTmp>...</StyledBookTitleTmp>
       </StyledBookItemTmp>
       <SpriteIcon name={"icon_traningLineDesc"} />
-    </div>
+    </>
   );
 };
 TmpLibraryBookItemDesk.propTypes = {};

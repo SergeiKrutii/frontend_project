@@ -1,5 +1,6 @@
 import { apiSlice } from "app/api/apiSlice";
-import { setBooks } from "./booksSlice";
+import { setBooks, setHaveBooks } from "./booksSlice";
+import { updateBooksFroGoal } from "redux/goal/goalsSlice";
 
 export const bookSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,11 +25,12 @@ export const bookSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...credentials },
       }),
-      provaidesTags: ["Books"],
+      invalidatesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setBooks(data));
+          dispatch(setHaveBooks());
         } catch (error) {
           console.log(error);
         }
@@ -38,15 +40,16 @@ export const bookSlice = apiSlice.injectEndpoints({
     deleteBookId: builder.mutation({
       query: (id) => ({
         url: `/books/${id}`,
-        method: "GET",
+        method: "DELETE",
       }),
-      providesTags: ["Books"],
+      invalidatesTags: ["Books"],
     }),
 
-    getBookId: builder.mutation({
-      query: (id) => ({
+    getBookById: builder.query({
+      query: (id, newData) => ({
         url: `/books/${id}`,
         method: "GET",
+        body: newData,
       }),
       providesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -58,8 +61,28 @@ export const bookSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    updateStatusBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Books"],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateBooksFroGoal(data));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetBookQuery, useAddBookMutation, useDeleteBookIdMutation } =
-  bookSlice;
+export const {
+  useGetBookQuery,
+  useAddBookMutation,
+  useDeleteBookIdMutation,
+  useGetBookByIdQuery,
+  useUpdateStatusBookMutation,
+} = bookSlice;

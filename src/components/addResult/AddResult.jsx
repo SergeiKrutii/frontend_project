@@ -17,20 +17,16 @@ import {
   StyledResultForm,
   StyledCalendarWrapper,
   StyledStatisticResult,
+  StyledResultsContainer,
 } from "./StyledAddResult";
 import { useEffect, useState } from "react";
+import { useAddResultMutation } from "redux/result/resultApiSlice";
 
-const tmpData = [
-  { date: "10.10.2019", time: "08:10:23", numberOfPage: "32 стор" },
-  { date: "12.10.2019", time: "23:50:15", numberOfPage: "164 стор" },
-  { date: "12.10.2019", time: "13:10:05", numberOfPage: "137 стор" },
-  { date: "13.10.2019", time: "18:46:19", numberOfPage: "164 стор" },
-  { date: "15.10.2019", time: "19:52:48", numberOfPage: "29 стор" },
-];
-
-const AddResult = (props) => {
+const AddResult = ({ results = [] }) => {
   const [onShow, setOnShow] = useState(false);
   const [calendarDate, setCalendarDate] = useState("");
+
+  const [addResult, { data }] = useAddResultMutation();
 
   const handleToggleCalendar = (e) => {
     setOnShow((prev) => !prev);
@@ -54,7 +50,7 @@ const AddResult = (props) => {
 
   const onChangeDate = (newDate) => {
     const formattedDate = format(newDate, "dd.MM.yyyy");
-    setCalendarDate(formattedDate);
+
     formik.setValues((prevValues) => ({ ...prevValues, date: formattedDate }));
 
     handleToggleCalendar();
@@ -63,18 +59,20 @@ const AddResult = (props) => {
   const formik = useFormik({
     initialValues: {
       date: "",
-      pageCount: "",
+      pageAmount: "",
     },
     onSubmit: (values) => {
       // if (isResultPicked) {
       //   toast("Ви не обрали дату чи кількість сторінок");
       // }
+      addResult(values);
+      formik.resetForm();
     },
   });
 
-  const { date, pageCount } = formik.values;
+  const { date, pageAmount } = formik.values;
 
-  const isResultPicked = date === "" || pageCount === "";
+  const isResultPicked = date === "" || pageAmount === "";
 
   return (
     <StyledResultWrapper>
@@ -103,14 +101,14 @@ const AddResult = (props) => {
             </StyledCalendarWrapper>
           )}
           <StyledResultInputWrapper>
-            <StyledResultLabel htmlFor="pageCount">
+            <StyledResultLabel htmlFor="pageAmount">
               Кількість сторінок
             </StyledResultLabel>
             <StyledResultInput
               type="text"
-              name="pageCount"
-              id="pageCount"
-              value={formik.values.pageCount}
+              name="pageAmount"
+              id="pageAmount"
+              value={formik.values.pageAmount}
               onChange={formik.handleChange}
             ></StyledResultInput>
           </StyledResultInputWrapper>
@@ -124,14 +122,15 @@ const AddResult = (props) => {
       </StyledResultForm>
       <StyledStatisticResult>
         <StyledResultTitle>СТАТИСТИКА</StyledResultTitle>
-
-        {tmpData.map(({ date, time, numberOfPage }) => (
-          <StyledResultResultsWrapper key={time}>
-            <StyledResultResults>{date}</StyledResultResults>
-            <StyledResultResults>{time}</StyledResultResults>
-            <StyledResultResults>{numberOfPage}</StyledResultResults>
-          </StyledResultResultsWrapper>
-        ))}
+        <StyledResultsContainer>
+          {results?.map(({ date, time, pageAmount }, idx) => (
+            <StyledResultResultsWrapper key={`${time}${idx}`}>
+              <StyledResultResults>{date}</StyledResultResults>
+              <StyledResultResults>{time}</StyledResultResults>
+              <StyledResultResults>{pageAmount} стор.</StyledResultResults>
+            </StyledResultResultsWrapper>
+          ))}
+        </StyledResultsContainer>
       </StyledStatisticResult>
     </StyledResultWrapper>
   );

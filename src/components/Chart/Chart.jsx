@@ -4,36 +4,37 @@ import { StyledChartContainer, StyledChartParagraph } from "./StyledChart";
 import { useMatchMedia } from "helpers/mediaQuery";
 import { Link } from "react-router-dom";
 import LinkPageAdd from "components/common/LinkPageAdd";
+import { useSelector } from "react-redux";
+import goalsSelectors from "redux/goal/goalsSelectors";
 
-const Chart = (props) => {
+const Chart = ({ pagePerDay, results }) => {
   const { isMobile, isDesktop, isTablet } = useMatchMedia();
+  const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
+  const calcFactPage = (results) => {
+    const arrFactPage = [];
+    results?.map((elem) => arrFactPage.push(Number(elem.pageAmount)));
 
-  // const chartDate = {
-  //   planPages: [25, 25, 25],
-  //   days: [26, 24, 26],
-  // };
-  // const chartDateT = {
-  //   planPages: [25, 25, 25, 25, 25, 25],
-  //   days: [26, 24, 26, 33, 21, 27],
-  // };
+    return isMobile ? arrFactPage.slice(-3) : arrFactPage.slice(-6);
+  };
+
   const chartDate = {
-    planPages: [],
-    days: [0],
+    planPages: Array.from({ length: 3 }, () => pagePerDay),
+    factPagePerDay: calcFactPage(results),
   };
   const chartDateT = {
-    planPages: [],
-    days: [0],
+    planPages: Array.from({ length: 6 }, () => pagePerDay),
+    factPagePerDay: calcFactPage(results),
   };
 
   return (
     <StyledChartContainer>
       <StyledChartParagraph>
-        КІЛЬКІСТЬ СТОРІНОК \ ДЕНЬ {chartDate.planPages[0]}
+        КІЛЬКІСТЬ СТОРІНОК \ ДЕНЬ {pagePerDay ? pagePerDay : "0"}
       </StyledChartParagraph>
       {isMobile && mobileChart(chartDate)}
       {isTablet && desctopChart(chartDateT, 215)}
       {isDesktop && desctopChart(chartDateT, 175)}
-      {isMobile && (
+      {isMobile && !isTraningBegin && (
         <LinkPageAdd page={"/addtraningform"}>Go to form</LinkPageAdd>
       )}
     </StyledChartContainer>

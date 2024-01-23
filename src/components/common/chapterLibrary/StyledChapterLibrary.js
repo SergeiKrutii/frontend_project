@@ -39,6 +39,7 @@ const StyledChapterButton = styled.button`
 
   border: none;
   margin-top: 35px;
+  margin-bottom: 40px;
 
   background: #ff6b08;
   color: #fff;
