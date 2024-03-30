@@ -1,35 +1,38 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+
 import { useMatchMedia } from "helpers/mediaQuery";
+import LibraryBookItemMob from "../libraryBookItemMob";
+import LibraryBookItemDesk from "components/libraryBookItemDesk";
 
-import LibraryBookItemMob from "../LibraryBookItemMob";
-import LibraryBookItemDesk from "components/LibraryBookItemDesk";
-
-const LibraryBookItem = ({ book, ifrestrue, handleDelete }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const LibraryBookItem = ({ book, handleDelete = () => {} }) => {
   const { isMobile } = useMatchMedia();
+  const [toggleModal, setToggleModal] = useState(false);
+
+  const handleToggle = () => {
+    setToggleModal((prev) => !prev);
+  };
 
   return isMobile ? (
     <LibraryBookItemMob
-      open={open}
-      handleOpen={handleOpen}
-      handleClose={handleClose}
+      open={toggleModal}
+      handleToggle={handleToggle}
       book={book}
       handleDelete={handleDelete}
     />
   ) : (
     <LibraryBookItemDesk
-      ifrestrue={ifrestrue}
-      open={open}
-      handleOpen={handleOpen}
-      handleClose={handleClose}
+      open={toggleModal}
+      handleToggle={handleToggle}
       book={book}
+      handleDelete={handleDelete}
     />
   );
 };
 
-LibraryBookItem.propTypes = {};
+LibraryBookItem.propTypes = {
+  book: PropTypes.object.isRequired,
+  handleDelete: PropTypes.func,
+};
 
 export default LibraryBookItem;

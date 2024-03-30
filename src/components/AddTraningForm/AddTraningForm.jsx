@@ -1,8 +1,14 @@
 import PropTypes from "prop-types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import moment from "moment";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import {
   StyledAddTraningContainer,
   StyledTraningTitle,
@@ -13,25 +19,16 @@ import {
   StyledCalendarWrapper,
   StyledTraningDateWrapper,
 } from "./StyledAddTraningForm";
-import SpriteIcon from "components/common/spriteIcon/SpriteIcon";
-import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
+import SpriteIcon from "components/common/spriteIcon";
 import authSelectors from "redux/auth/authSelectors";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetBookQuery } from "redux/book/booksApiSlice";
-import GetBackButton from "components/common/getBackButton/GetBackButton";
-import Container from "components/common/container/Container";
+import GetBackButton from "components/common/getBackButton";
+import Container from "components/common/container";
 import { useMatchMedia } from "helpers/mediaQuery";
-import { useNavigate } from "react-router-dom";
 import goalsSelectors from "redux/goal/goalsSelectors";
 import { setTime } from "redux/goal/goalsSlice";
 
-const AddTraningForm = ({
-  setGoalBooks,
-  books,
-  setDateDiff,
-  handleAddTraning,
-}) => {
+const AddTraningForm = ({ setGoalBooks, books, setDateDiff }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [book, setBook] = useState("Обрати книги з бібліотеки");
@@ -43,6 +40,7 @@ const AddTraningForm = ({
 
   const timeForGoalLeft =
     endDate && beginDate ? (endDate - beginDate) / (1000 * 60 * 60 * 24) : 0;
+  console.log("🚀 ~ timeForGoalLeft:", timeForGoalLeft);
 
   const localStorValue = JSON.parse(localStorage.getItem("persist:goal"));
   const isDateSetStart = localStorValue?.beginDate.slice(1, -1);
@@ -50,17 +48,23 @@ const AddTraningForm = ({
 
   const token = useSelector(authSelectors.selectToken);
   const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
-  // const haveBooks = false;
-  // const { data } = useGetBookQuery(token ?? skipToken || !haveBooks && skip);
   const { data } = useGetBookQuery(token ?? skipToken);
 
-  let isDatePicked =
-    beginDate === "" || endDate === "" || book === "Обрати книги з бібліотеки";
+  const isDatePicked =
+    beginDate === "" ||
+    endDate === "" ||
+    book === "Обрати книги з бібліотеки" ||
+    isTraningBegin;
 
   useEffect(() => {
     if (isTraningBegin === false && isDateSetStart && isDateSetEnd) {
       setBeginDate(new Date(isDateSetStart) || "");
       setEndDate(new Date(isDateSetEnd) || "");
+    }
+
+    if (isTraningBegin) {
+      setBeginDate("");
+      setEndDate("");
     }
   }, [
     isDateSetEnd,
@@ -70,19 +74,27 @@ const AddTraningForm = ({
     localStorValue?.endDate,
   ]);
 
+  const filteredBooks = isMobile
+    ? data?.filter((book) => book.isRead !== true)
+    : books?.filter((book) => book.isRead !== true);
+
   const handleAddBook = (e) => {
-    if (isMobile) {
-      const bookForGoal = data?.find((elem) => elem.title === book);
-      setGoalBooks((prevBooks) => [...prevBooks, bookForGoal]);
-      // ТУТ ДОЛЖЕН БЫТЬ POST ЗАПРОС ДЛЯ СОЗДАНИЯ GOALS, И ПОСЛЕ УСПЕШНОГО ВЫПОЛНЕНИЯ
-      //ПЕРЕКИНЕТ НА СТРАНИЦУ /TRANING ГДЕ ПРОИЗОЙДЕТ ПОВТОРНЫЙ ЗАПРОС GET /BOOKS
+    if (isTraningBegin) {
+      toast.warning("Тренування ще не закінчилось!", {
+        theme: "colored",
+      });
+      return;
     }
-    // const { _id } = books?.find((elem) => elem.title === book);
-    // setGoalBooks((prevBooks) => ({
-    //   booksId: [...prevBooks, _id],
-    //   beginDate,
-    //   endDate,
-    // }));
+    if (isDatePicked) {
+      toast.warning("Ви не обрали дату початку, завершення або книгу!", {
+        theme: "colored",
+      });
+      return;
+    }
+
+    const bookForGoal = data?.find((elem) => elem.title === book);
+
+    setGoalBooks((prevBooks) => [...prevBooks, bookForGoal]);
     dispatch(
       setTime({ beginDate: beginDate.toString(), endDate: endDate.toString() })
     );
@@ -93,8 +105,6 @@ const AddTraningForm = ({
     }
   };
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////               А так можно?
   useEffect(() => {
     function handleDocumentClick(e) {
       const parent = onShow && e.target.nodeName === "DIV";
@@ -115,7 +125,7 @@ const AddTraningForm = ({
       document.removeEventListener("click", handleDocumentClick);
     };
   }, [onShow]);
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   function handleToggleCalendar(e) {
     const target = e.currentTarget?.id;
 
@@ -146,75 +156,88 @@ const AddTraningForm = ({
   };
 
   return isMobile ? (
-    <Container>
-      <StyledAddTraningContainer>
-        {isMobile && <GetBackButton />}
-        <StyledTraningTitle>Моє тренування</StyledTraningTitle>
-        <StyledAddTraningWrapper>
-          <StyledTraningDateWrapper>
-            <StyledTraningDate
-              onClick={handleToggleCalendar}
-              name="dateStart"
-              id="dateStart"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <Container>
+        <StyledAddTraningContainer>
+          {isMobile && <GetBackButton path={"/traning"} />}
+          <StyledTraningTitle>Моє тренування</StyledTraningTitle>
+          <StyledAddTraningWrapper>
+            <StyledTraningDateWrapper>
+              <StyledTraningDate
+                onClick={handleToggleCalendar}
+                name="dateStart"
+                id="dateStart"
+              >
+                <SpriteIcon name={"icon_calendar"} />
+                {beginDate ? format(beginDate, "dd.MM.yyyy") : "Початок"}
+                <SpriteIcon name={"icon_dateArrow"} />
+              </StyledTraningDate>
+
+              {onShow.dateStart && (
+                <StyledCalendarWrapper>
+                  <Calendar
+                    onChange={(date) => onChangeDate(date, "dateStart")}
+                    value={beginDate}
+                  />
+                </StyledCalendarWrapper>
+              )}
+            </StyledTraningDateWrapper>
+            <StyledTraningDateWrapper>
+              <StyledTraningDate
+                name="dateEnd"
+                id="dateEnd"
+                onClick={handleToggleCalendar}
+              >
+                <SpriteIcon name={"icon_calendar"} />
+                {endDate ? format(endDate, "dd.MM.yyyy") : "Завершення"}
+                <SpriteIcon name={"icon_dateArrow"} />
+              </StyledTraningDate>
+
+              {onShow.dateEnd && (
+                <StyledCalendarWrapper>
+                  <Calendar
+                    onChange={(date) => onChangeDate(date, "dateEnd")}
+                    value={endDate}
+                  />
+                </StyledCalendarWrapper>
+              )}
+            </StyledTraningDateWrapper>
+
+            <StyledTraningBooksSelect onChange={handleChange} value={book}>
+              <option style={{ display: "none" }}>
+                Обрати книги з бібліотеки
+              </option>
+              {filteredBooks &&
+                filteredBooks.map((elem, idx) => (
+                  <option key={`${idx}${elem.title}`} value={`${elem.title}`}>
+                    {elem.title}
+                  </option>
+                ))}
+            </StyledTraningBooksSelect>
+            <StyledAddTraningButton
+              onClick={handleAddBook}
+              type="button"
+              disabled={isDatePicked}
             >
-              <SpriteIcon name={"icon_calendar"} />
-              {beginDate ? format(beginDate, "dd.MM.yyyy") : "Початок"}
-              <SpriteIcon name={"icon_dateArrow"} />
-            </StyledTraningDate>
-
-            {onShow.dateStart && (
-              <StyledCalendarWrapper>
-                <Calendar
-                  onChange={(date) => onChangeDate(date, "dateStart")}
-                  value={beginDate}
-                />
-              </StyledCalendarWrapper>
-            )}
-          </StyledTraningDateWrapper>
-          <StyledTraningDateWrapper>
-            <StyledTraningDate
-              name="dateEnd"
-              id="dateEnd"
-              onClick={handleToggleCalendar}
-            >
-              <SpriteIcon name={"icon_calendar"} />
-              {endDate ? format(endDate, "dd.MM.yyyy") : "Завершення"}
-              <SpriteIcon name={"icon_dateArrow"} />
-            </StyledTraningDate>
-
-            {onShow.dateEnd && (
-              <StyledCalendarWrapper>
-                <Calendar
-                  onChange={(date) => onChangeDate(date, "dateEnd")}
-                  value={endDate}
-                />
-              </StyledCalendarWrapper>
-            )}
-          </StyledTraningDateWrapper>
-
-          <StyledTraningBooksSelect onChange={handleChange} value={book}>
-            <option style={{ display: "none" }}>
-              Обрати книги з бібліотеки
-            </option>
-            {data &&
-              data.map((elem, idx) => (
-                <option key={`${idx}${elem.title}`} value={`${elem.title}`}>
-                  {elem.title}
-                </option>
-              ))}
-          </StyledTraningBooksSelect>
-          <StyledAddTraningButton
-            onClick={handleAddBook}
-            type="button"
-            disabled={isDatePicked}
-          >
-            Додати
-          </StyledAddTraningButton>
-        </StyledAddTraningWrapper>
-      </StyledAddTraningContainer>
-    </Container>
+              Додати
+            </StyledAddTraningButton>
+          </StyledAddTraningWrapper>
+        </StyledAddTraningContainer>
+      </Container>
+    </motion.div>
   ) : (
-    <StyledAddTraningContainer>
+    <StyledAddTraningContainer
+      as={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <StyledTraningTitle>Моє тренування</StyledTraningTitle>
       <StyledAddTraningWrapper>
         <StyledTraningDateWrapper>
@@ -224,11 +247,11 @@ const AddTraningForm = ({
             id="dateStart"
           >
             <SpriteIcon name={"icon_calendar"} />
-            {beginDate ? beginDate.toString() : "Початок"}
+            {beginDate ? format(beginDate, "dd.MM.yyyy") : "Початок"}
             <SpriteIcon name={"icon_dateArrow"} />
           </StyledTraningDate>
 
-          {onShow.dateStart && (
+          {onShow.dateStart && !isTraningBegin && (
             <StyledCalendarWrapper>
               <Calendar
                 onChange={(date) => onChangeDate(date, "dateStart")}
@@ -244,11 +267,11 @@ const AddTraningForm = ({
             onClick={handleToggleCalendar}
           >
             <SpriteIcon name={"icon_calendar"} />
-            {endDate ? endDate.toString() : "Завершення"}
+            {endDate ? format(endDate, "dd.MM.yyyy") : "Завершення"}
             <SpriteIcon name={"icon_dateArrow"} />
           </StyledTraningDate>
 
-          {onShow.dateEnd && (
+          {onShow.dateEnd && !isTraningBegin && (
             <StyledCalendarWrapper>
               <Calendar
                 onChange={(date) => onChangeDate(date, "dateEnd")}
@@ -259,19 +282,15 @@ const AddTraningForm = ({
         </StyledTraningDateWrapper>
         <StyledTraningBooksSelect onChange={handleChange} value={book}>
           <option style={{ display: "none" }}>Обрати книги з бібліотеки</option>
-          {books &&
-            books.map((elem, idx) => (
+          {filteredBooks &&
+            filteredBooks.map((elem, idx) => (
               <option key={`${idx}${elem.title}`} value={`${elem.title}`}>
                 {elem.title}
               </option>
             ))}
         </StyledTraningBooksSelect>
 
-        <StyledAddTraningButton
-          onClick={handleAddBook}
-          type="button"
-          disabled={isDatePicked}
-        >
+        <StyledAddTraningButton onClick={handleAddBook} type="button">
           Додати
         </StyledAddTraningButton>
       </StyledAddTraningWrapper>
@@ -279,6 +298,10 @@ const AddTraningForm = ({
   );
 };
 
-AddTraningForm.propTypes = {};
+AddTraningForm.propTypes = {
+  setGoalBooks: PropTypes.func,
+  books: PropTypes.arrayOf(PropTypes.object),
+  setDateDiff: PropTypes.func,
+};
 
 export default AddTraningForm;

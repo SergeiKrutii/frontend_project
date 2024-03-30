@@ -13,6 +13,8 @@ const LinkPageAdd = ({ page }) => {
   );
 };
 
-LinkPageAdd.propTypes = {};
+LinkPageAdd.propTypes = {
+  page: PropTypes.string.isRequired,
+};
 
 export default LinkPageAdd;

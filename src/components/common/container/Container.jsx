@@ -1,10 +1,14 @@
-import { StyledContainer } from "./StyledContainer";
 import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
+
+import { StyledContainer } from "./StyledContainer";
 
 const Container = ({ children }) => {
+  const { pathname } = useLocation();
+
   return (
     <>
-      <StyledContainer>{children}</StyledContainer>
+      <StyledContainer $page={pathname}>{children}</StyledContainer>
     </>
   );
 };

@@ -146,39 +146,20 @@ function desctopChart(chartDate, width) {
     responsive: true,
     layout: {
       padding: {
-        //   left: 40,
         right: 20,
-        top: 10,
-        // bottom: 0,
+        top: 30,
+        left: 10,
       },
     },
-    elements: {
-      point: {},
-    },
-    // indexAxis: "x",
     plugins: {
-      // legend: {
-      //   display: false,
-      // },
       filter: " drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
     },
     scales: {
-      // legend: {
-      //   display: false,
-      //   position: "bottom",
-      // },
-
       x: {
         grid: {
-          // drawOnChartArea: false,
           drawTicks: false,
-          // tickBorderDash: [100],
-
           offset: false,
           lineWidth: 1,
-          // color: "red",
-          // tickLength: 30,
-          // z: 11,
         },
         ticks: {
           display: false,
@@ -189,17 +170,9 @@ function desctopChart(chartDate, width) {
         grid: {
           lineWidth: 0,
           borderColor: "transparent",
-          // display: false,
         },
         ticks: {
-          // stepSize: 1,
-
           display: false,
-          // labelOffset: -15,
-          // align: "end",
-          // mirror: true,
-
-          // padding: 0,
         },
       },
     },
@@ -213,7 +186,7 @@ function desctopChart(chartDate, width) {
         data: chartDate.planPages,
         datalabels: {
           display: function (context) {
-            return context.dataIndex === context.dataset.data.length - 1;
+            return context.dataIndex === labels.length - 1;
           },
           align: "end",
           anchor: "end",
@@ -232,9 +205,6 @@ function desctopChart(chartDate, width) {
           formatter: function (value, context) {
             return "ПЛАН";
           },
-          clip: false, // Позволяет лейблам выходить за пределы графика
-          // textAlign: "end",
-          // textBaseline: "middle",
         },
         filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
         borderWidth: 4,
@@ -261,6 +231,7 @@ function desctopChart(chartDate, width) {
           formatter: function (value, context) {
             return "ФАКТ";
           },
+          clip: false,
         },
         borderWidth: 4,
         pointRadius: 4,
@@ -279,7 +250,6 @@ function desctopChart(chartDate, width) {
       options={options}
       data={data}
     />
-    // <Line type="line" width={607} height={175} options={options} data={data} />
   );
 }
 

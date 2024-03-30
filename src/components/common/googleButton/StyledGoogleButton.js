@@ -8,7 +8,6 @@ const StyledGoogleButton = styled.button`
   cursor: pointer;
 
   margin-bottom: 16px;
-  /* margin-top: 30px; */
   border: none;
   width: 150px;
   height: 40px;

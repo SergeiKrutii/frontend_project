@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import authSelectors from "redux/auth/authSelectors";
+import { useState } from "react";
 
+import authSelectors from "redux/auth/authSelectors";
 import Avatar from "@mui/material/Avatar";
 import { useMatchMedia } from "helpers/mediaQuery";
 import SpriteIcon from "components/common/spriteIcon";
@@ -11,27 +11,21 @@ import {
   StyledNavListItemMob,
   StyledNavItemLink,
   StyledNavItemButton,
-  StyledNavListItemTablet,
-  StyledNavListTablet,
-  StyledNavParagraphTablet,
 } from "./StyledUserNav";
-import { useLogoutMutation } from "redux/auth/authApiSlice";
-import { useState } from "react";
-import MainModal from "../mainModal/MainModal";
-import Warning from "../contentForModal/Warning";
-import NiceJob from "../contentForModal/NiceJob";
-import BetterNextTime from "../contentForModal/BetterNextTime";
+import MainModal from "../common/mainModal";
+import { Warning } from "../common/contentForModal";
 
-const UserNav = ({ children }) => {
+const UserNav = (props) => {
   const userName = useSelector(authSelectors.selectName);
   const [toggleModal, setToggleModal] = useState(false);
+  const { isMobile } = useMatchMedia();
 
   const handleToggleModal = () => {
     setToggleModal((prevState) => !prevState);
   };
 
   let firstLetter = userName?.slice(0, 1).toUpperCase();
-  const { isMobile } = useMatchMedia();
+
   return (
     <StyledUserNav>
       {isMobile ? (
@@ -95,7 +89,5 @@ const UserNav = ({ children }) => {
     </StyledUserNav>
   );
 };
-
-UserNav.propTypes = {};
 
 export default UserNav;

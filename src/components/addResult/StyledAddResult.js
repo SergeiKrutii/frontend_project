@@ -9,7 +9,8 @@ const StyledResultWrapper = styled.div`
   width: 240px;
 
   padding: 15px 15px;
-  margin: 30px 0px;
+  /* margin: 30px 0px; */
+  margin-top: 30px;
 
   background: #fff;
   box-shadow: 0px 2px 3px 0px rgba(9, 30, 63, 0.1);
@@ -20,11 +21,6 @@ const StyledResultWrapper = styled.div`
 
     padding: 21px 84px;
     margin-top: 40px;
-    margin-bottom: 56px;
-  }
-
-  @media screen and (min-width: 1280px) {
-    /* margin-left: 41px; */
   }
 `;
 

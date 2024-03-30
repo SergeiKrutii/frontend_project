@@ -1,18 +1,21 @@
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+
 import { useMatchMedia } from "helpers/mediaQuery";
 import { StyledHeader, StyledTitle } from "./StyledHeader";
-import UserNav from "components/common/userNav";
-import UserAvatar from "components/common/userAvatar/UserAvatar";
-import { useSelector } from "react-redux";
+import UserNav from "components/userNav";
+import UserAvatar from "components/userAvatar/UserAvatar";
 import authSelectors from "redux/auth/authSelectors";
 
 const Header = () => {
-  const { isMobile, isTablet, isDesktop } = useMatchMedia();
+  const { isTablet, isDesktop } = useMatchMedia();
   const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
+  const { pathname } = useLocation();
 
   const devSize = isDesktop || isTablet;
 
   return (
-    <StyledHeader $location={isLoggedIn}>
+    <StyledHeader $login={isLoggedIn} $location={pathname}>
       <StyledTitle>BR</StyledTitle>
       {devSize && isLoggedIn && <UserAvatar />}
       {isLoggedIn && <UserNav />}

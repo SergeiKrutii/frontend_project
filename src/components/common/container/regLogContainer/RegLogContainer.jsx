@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
+
 import {
   StyledRegLogContainer,
   StyledParagraph,
@@ -6,7 +8,6 @@ import {
   StyledBackgroundContainer,
 } from "./StyledRegLogContainer";
 import { useMatchMedia } from "helpers/mediaQuery";
-import { useLocation } from "react-router-dom";
 
 const RegLogContainer = ({ text = "", link = "", textLink = "", children }) => {
   const { isTablet, isDesktop } = useMatchMedia();
@@ -14,7 +15,7 @@ const RegLogContainer = ({ text = "", link = "", textLink = "", children }) => {
   const { pathname } = useLocation();
 
   return devSize ? (
-    <StyledBackgroundContainer $page={pathname}>
+    <StyledBackgroundContainer>
       <StyledRegLogContainer $page={pathname}>
         {children}
         <StyledParagraph $page={pathname}>

@@ -6,10 +6,21 @@ const StyledBookItemTmp = styled.div({
   display: "flex",
   alignItems: "center",
   background: "transparent",
+
+  "@media screen and (min-width: 768px)": {
+    borderTop: "2px solid rgba(224, 229, 235, 1)",
+    borderBottom: "2px solid rgba(224, 229, 235, 1)",
+    marginBottom: "50px",
+  },
+
+  "@media screen and (min-width: 1280px)": {
+    width: "100%",
+  },
 });
 
 const StyledBookTitleTmp = styled.p((props) => ({
-  fontSize: 12,
+  fontSize: 19,
+  color: "#242A37",
   fontWeight: 500,
   textAlign: "left",
   minWidth: props.ifrestrue ? 170 : 273,

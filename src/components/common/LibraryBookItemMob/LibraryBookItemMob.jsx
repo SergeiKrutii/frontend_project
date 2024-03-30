@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import StarRating from "../starRating/StarRating";
-import SpriteIcon from "../spriteIcon/SpriteIcon";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import SpriteIcon from "../spriteIcon/SpriteIcon";
 import {
   StyledBookItem,
   StyledItemTitleBook,
@@ -18,33 +18,31 @@ import {
   StyledBookCheckbox,
   StyledBookCheckboxContainer,
 } from "./StyledLibraryBookItemMob";
-
-import ModalBtn from "../modalBtn/ModalBtn";
-import FormSummaryModal from "../formSummaryModal/FormSummaryModal";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import ModalBtn from "../modalBtn";
+import FormSummaryModal from "../formSummaryModal";
 import goalsSelectors from "redux/goal/goalsSelectors";
 import { useUpdateStatusBookMutation } from "redux/book/booksApiSlice";
+import BookRating from "../starRating";
+import booksSelectors from "redux/book/booksSelectors";
 
 const LibraryBookItemMob = ({
   book,
-  handleClose,
-  handleOpen,
+  handleToggle,
   open,
   handleDelete = () => {},
 }) => {
   const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
   const [updateBook] = useUpdateStatusBookMutation();
-  const [isDisabled, setIsDisabled] = useState(false);
   const { pathname } = useLocation();
+  const [{ isRead }] = useSelector(booksSelectors.findBookById(book._id));
 
-  useEffect(() => {
-    // setIsDisabled(book.isRead);
-  }, [book.isRead]);
+  const bookStatus = book.status === "Читаю";
+  const isShowReview =
+    book?.status === "Вже прочитано" && pathname === "/library";
 
   const handleChangeStatus = (e) => {
     if (e.target.checked) {
-      updateBook(book?._id);
+      updateBook({ id: book?._id });
     }
   };
 
@@ -57,12 +55,16 @@ const LibraryBookItemMob = ({
               type="checkbox"
               name="checkIsRead"
               onChange={handleChangeStatus}
-              disabled={isDisabled}
               defaultChecked={book?.isRead}
+              disabled={isRead}
             />
           </StyledBookCheckboxContainer>
         ) : (
-          <SpriteIcon name={"icon-Flat1"} />
+          <SpriteIcon
+            name={"icon-Flat1"}
+            $shuldFill={bookStatus}
+            fill="currentColor"
+          />
         )}
 
         <StyledNameBook>{book.title}</StyledNameBook>
@@ -72,6 +74,7 @@ const LibraryBookItemMob = ({
           </StyledBookButton>
         )}
       </StyledItemTitleBook>
+
       <StyledTableMobile $page={pathname}>
         <tbody>
           <StyledTableLine>
@@ -88,27 +91,40 @@ const LibraryBookItemMob = ({
           </StyledTableLine>
         </tbody>
       </StyledTableMobile>
+      {isShowReview && (
+        <StyledRatingStarsBox>
+          <StyledRatingChapter>Рейтинг:</StyledRatingChapter>
+          <BookRating readOnly stars={book?.rating?.stars} />
+        </StyledRatingStarsBox>
+      )}
       {pathname === "/traning" && <SpriteIcon name={"icon_traningLine"} />}
 
-      {book?.rating === "Вже прочитано" ? (
+      {isShowReview && (
         <StyledRatingBox>
-          <StyledRatingStarsBox>
-            <StyledRatingChapter>Рейтинг:</StyledRatingChapter>
-            <StarRating readOnly />
-          </StyledRatingStarsBox>
           <ModalBtn
-            handleOpen={handleOpen}
-            handleClose={handleClose}
+            handleToggle={handleToggle}
             open={open}
-            component={<FormSummaryModal handleOpen={handleClose} />}
+            component={
+              <FormSummaryModal
+                review={book?.rating?.resume}
+                bookId={book?._id}
+                stars={book?.rating?.stars}
+                handleToggle={handleToggle}
+              />
+            }
             text="Резюме"
           />
         </StyledRatingBox>
-      ) : null}
+      )}
     </StyledBookItem>
   );
 };
 
-LibraryBookItemMob.propTypes = {};
+LibraryBookItemMob.propTypes = {
+  book: PropTypes.object.isRequired,
+  handleToggle: PropTypes.func,
+  open: PropTypes.bool,
+  handleDelete: PropTypes.func,
+};
 
 export default LibraryBookItemMob;

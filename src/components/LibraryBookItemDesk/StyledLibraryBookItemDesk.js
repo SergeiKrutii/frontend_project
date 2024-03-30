@@ -1,68 +1,140 @@
 import styled from "styled-components";
+const tableStyle = {
+  color: "#242A37",
+  fontSize: 12,
+  fontWeight: 500,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+};
 
-const StyledBookItem = styled.div(({ $page }) => ({
-  width: 678,
-  height: 62,
+const StyledBookItem = styled.div(({ theme }) => ({
+  width: theme.page === "/traning" ? "678px" : "638px",
+  height: 60,
   display: "flex",
   alignItems: "center",
-  background: $page === "/traning" ? "transparent" : "#fff",
-  marginBottom: 10,
+  background: theme.page === "/traning" ? "transparent" : "#fff",
   boxShadow:
-    $page === "/traning" ? "" : "0px 2px 3px 0px rgba(9, 30, 63, 0.10)",
+    theme.page === "/traning" ? "" : "0px 2px 3px 0px rgba(9, 30, 63, 0.10)",
+  padding: theme.page === "/traning" ? "" : "0px 20px",
+
+  "@media screen and (min-width: 1280px)": {
+    width: theme.page === "/traning" ? "856px" : "1097px",
+    height: theme.page === "/traning" ? 40 : 62,
+    marginBottom: 0,
+    padding:
+      theme.page === "/traning" ? "0px 25px 0px 0px" : "0px 85px 0px 20px",
+  },
 }));
 
-const StyledBookTitle = styled.p((props) => ({
-  fontSize: 12,
-  fontWeight: 500,
-  textAlign: "left",
-  minWidth: props.ifrestrue ? 170 : 273,
-  maxWidth: props.ifrestrue ? 170 : 273,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  marginLeft: 15,
+const StyledTimedDiv = styled.div`
+  @media screen and (min-width: 768px) and (max-width: 1279px) {
+    &:first-child {
+      border-top: 2px solid rgba(224, 229, 235, 1);
+      border-bottom: 2px solid rgba(224, 229, 235, 1);
+    }
+    &:not(:first-child) {
+      border-bottom: 2px solid rgba(224, 229, 235, 1);
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+`;
+
+const StyledBookTitle = styled.p(({ theme }) => ({
+  ...tableStyle,
+  width: theme.isRead ? 135 : theme.page !== "/library" ? 180 : 255,
+  marginRight: theme.isRead ? 0 : theme.page !== "/library" ? 44 : 30,
+  marginLeft: 20,
+
+  "@media screen and (min-width: 768px) and (max-width: 1279px)": {
+    maxHeight: 34,
+    fontFamily: "Montserrat",
+    fontSize: "14px",
+    fontWeight: 500,
+  },
+  "@media screen and (min-width: 1280px)": {
+    width: theme.isRead ? 260 : theme.page !== "/library" ? 290 : 500,
+    marginRight: theme.isRead ? 41 : theme.page !== "/library" ? 32 : 68,
+    fontSize: "16px",
+  },
 }));
 
-const StyledBookAuthor = styled.p({
-  fontSize: 12,
-  fontWeight: 500,
-  textAlign: "left",
-  width: 145,
-  maxWidth: 145,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  marginLeft: 15,
-});
+const StyledBookAuthor = styled.p(({ theme }) => ({
+  ...tableStyle,
+  width: theme.isRead ? 90 : 158,
+  marginRight: theme.isRead ? 0 : 25,
+  marginLeft: theme.isRead ? 23 : 0,
 
-const StyledBookYear = styled.p((props) => ({
-  fontSize: 12,
-  fontWeight: 500,
-  textAlign: "left",
-  width: 40,
-  maxWidth: 40,
+  "@media screen and (min-width: 768px)": {
+    fontSize: "14px",
+  },
 
-  marginLeft: props.ifrestrue ? 0 : 60,
+  "@media screen and (min-width: 1280px)": {
+    width: theme.isRead ? 167 : theme.page !== "/library" ? 200 : 300,
+    marginLeft: 0,
+    marginRight: theme.page === "/library" ? 52 : 25,
+    fontSize: "16px",
+  },
 }));
 
-const StyledBookPage = styled.p((props) => ({
-  fontSize: 12,
+const StyledBookYear = styled.p(({ theme }) => ({
+  fontSize: "14px",
   fontWeight: 500,
-  textAlign: "left",
-  width: 50,
-  maxWidth: 50,
+  color: "#242A37",
+  width: theme.isRead ? 40 : 32,
+  textAlign: "right",
 
-  marginLeft: props.ifrestrue ? 0 : 20,
+  marginLeft: theme.isRead ? 5 : 0,
+  marginRight: theme.isRead ? 0 : 66,
+
+  "@media screen and (min-width: 1280px)": {
+    width: 40,
+    marginLeft: 0,
+    textAlign: theme.isRead ? "end" : "start",
+    marginRight: theme.isRead ? 74 : theme.page === "/traning" ? 118 : 64,
+    fontSize: "16px",
+  },
+}));
+
+const StyledBookPage = styled.p(({ theme }) => ({
+  fontSize: "14px",
+  textAlign: "right",
+
+  fontWeight: 500,
+  width: theme.isRead ? 50 : 30,
+  color: "#242A37",
+
+  marginLeft: theme.isRead ? 27 : 0,
+  marginRight: theme.isRead ? 28 : 0,
+  "@media screen and (min-width: 1280px)": {
+    marginLeft: theme.isRead ? 0 : 0,
+    width: theme.isRead ? 40 : 30,
+    marginRight: theme.isRead ? 106 : 0,
+    fontSize: "16px",
+  },
 }));
 
 const StyledBookButton = styled.button`
   border: none;
   background-color: transparent;
   padding: 0;
-  margin-left: auto;
+  fill: #a6abb9;
+  margin-left: 48px;
+  cursor: pointer;
+  &:hover,
+  :focus {
+    color: #fff;
+    fill: #d15807;
+  }
 
-  @media screen and (min-width: 768px) {
-    margin-left: 0;
+  @media screen and (min-width: 1280px) {
+    margin-left: auto;
+    margin-right: ${({ theme }) =>
+      theme.page === "/traning" ? "0px" : "10px"};
   }
 `;
 
@@ -73,4 +145,5 @@ export {
   StyledBookYear,
   StyledBookPage,
   StyledBookButton,
+  StyledTimedDiv,
 };

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledContainer = styled.div(() => ({
+export const StyledContainer = styled.div((props) => ({
   fontFamily: "Roboto",
   color: "#fff",
   minHeight: 648,
@@ -19,10 +19,8 @@ export const StyledContainer = styled.div(() => ({
   },
 
   "@media screen  and (min-width: 1280px)": {
-    maxWidth: 1280,
+    maxWidth: 1202,
     minHeight: 790,
     padding: "0px 39px",
-    // display: "flex",
-    // justifyContent: "center",
   },
 }));

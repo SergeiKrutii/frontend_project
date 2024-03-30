@@ -1,7 +1,7 @@
 import Header from "components/header/Header";
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
-import Loader from "components/Loader/Loader";
+import Loader from "components/common/loader/Loader";
 
 const Layout = () => {
   return (

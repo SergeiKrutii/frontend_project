@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-const StyledBookItem = styled.div({
-  width: "270px",
-  minHeight: "120px",
-  background: "white",
-
-  backgroundColor: "transparent",
-});
+const StyledBookItem = styled.div`
+  width: 270px;
+  min-height: 120px;
+  background: "#FFF";
+  background-color: ${(props) =>
+    props.$pathname === "/library" ? "#FFF" : "transparent"};
+  padding: 10px 0px;
+`;
 
 const StyledItemTitleBook = styled.div({
-  // width: 175,
   display: "flex",
   marginLeft: 22,
   paddingTop: 13,

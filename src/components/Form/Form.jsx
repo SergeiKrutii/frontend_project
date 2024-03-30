@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+
 import {
   StyledInput,
   StyledForm,
@@ -8,14 +10,16 @@ import {
   StyledInputWrapper,
   StyledFormikError,
 } from "./StyledForm";
-import MainButton from "../common/mainButton/MainButton";
+import MainButton from "../common/mainButton";
 import { useSignupMutation, useLoginMutation } from "redux/auth/authApiSlice";
-import * as Yup from "yup";
 
 const Form = ({ loc, btnText }) => {
   const isRegisterPage = loc === "/register";
+
   const [setRegisterData, { isSuccess }] = useSignupMutation();
+
   const [setLoginData] = useLoginMutation();
+
   const navigate = useNavigate();
 
   const SignupSchema = Yup.object().shape({
@@ -50,20 +54,25 @@ const Form = ({ loc, btnText }) => {
       equalPassword: "",
     },
     validationSchema: isRegisterPage ? SignupSchema : SigninSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const loginData = { email: values.email, password: values.password };
-      if (isRegisterPage) {
-        setRegisterData(values);
-      } else {
-        setLoginData(loginData);
+
+      try {
+        if (isRegisterPage) {
+          setRegisterData(values);
+        } else {
+          setTimeout(() => {
+            setLoginData(loginData);
+          }, 500);
+          if (isSuccess) {
+            navigate("/library", { replace: true });
+          }
+        }
+      } catch (error) {
+        //error processed in api
       }
+
       formik.resetForm();
-      setTimeout(() => {
-        setLoginData(loginData);
-      }, 500);
-      if (isSuccess) {
-        navigate("/library", { replace: true });
-      }
     },
   });
 
@@ -85,7 +94,6 @@ const Form = ({ loc, btnText }) => {
           ) : null}
         </StyledInputWrapper>
       )}
-
       <StyledInputWrapper>
         <StyledLabel htmlFor="email">Електронна адреса</StyledLabel>
         <StyledInput

@@ -4,6 +4,7 @@ const StyleForModalWrapper = `
 width: 210px;
 padding: 50px 30px;
 `;
+
 const StyleForModalContent = `
 margin-bottom: 21px;
 
@@ -17,6 +18,11 @@ line-height: 22px;
 
 const StyledWarningWrapper = styled.div`
   ${StyleForModalWrapper}
+
+  @media screen and (min-width: 768px) {
+    width: 290px;
+    padding: 50px 50px;
+  }
 `;
 const StyledWarningText = styled.p`
   ${StyleForModalContent}

@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+
 import { mobileChart, desctopChart } from "./ChartConfig";
 import { StyledChartContainer, StyledChartParagraph } from "./StyledChart";
 import { useMatchMedia } from "helpers/mediaQuery";
-import { Link } from "react-router-dom";
-import LinkPageAdd from "components/common/LinkPageAdd";
-import { useSelector } from "react-redux";
+import LinkPageAdd from "components/common/linkPageAdd";
 import goalsSelectors from "redux/goal/goalsSelectors";
 
 const Chart = ({ pagePerDay, results }) => {
@@ -41,6 +41,9 @@ const Chart = ({ pagePerDay, results }) => {
   );
 };
 
-Chart.propTypes = {};
+Chart.propTypes = {
+  pagePerDay: PropTypes.number,
+  results: PropTypes.array,
+};
 
 export default Chart;

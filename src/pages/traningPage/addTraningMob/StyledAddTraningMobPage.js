@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledAddTraningContainer = styled.div`
   max-width: 270px;
   height: 588px;
-  /* margin-top: 55px; */
 
   @media screen and (min-width: 768px) {
     max-width: 678px;
@@ -74,17 +73,6 @@ const StyledTraningDate = styled.span`
   font-size: 14px;
   font-weight: 500;
   line-height: 38px;
-
-  /* &::before {
-    content: " ";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 16px;
-
-    background-image: url("");
-  } */
 
   @media screen and (min-width: 768px) {
     width: 223px;

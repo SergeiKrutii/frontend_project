@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import SpriteIcon from "components/common/spriteIcon";
+import { useLocation } from "react-router-dom";
+
 import {
   StyledBookItem,
   StyledItemTitleBook,
@@ -8,12 +9,14 @@ import {
   StyledTableChapter,
   StyledTableMeaning,
   StyledTableLine,
-} from "./StyledBookItemTmp";
+} from "./StyledTmpLibraryBookItemMob";
 
-const BookItemTmp = ({ books }) => {
+const BookItemTmp = (props) => {
+  const { pathname } = useLocation();
+
   return (
     <>
-      <StyledBookItem>
+      <StyledBookItem $pathname={pathname}>
         <StyledItemTitleBook>
           <SpriteIcon width="22" height="17" name={"icon-Flat1"} />
           <StyledNameBook>...</StyledNameBook>
@@ -39,7 +42,5 @@ const BookItemTmp = ({ books }) => {
     </>
   );
 };
-
-BookItemTmp.propTypes = {};
 
 export default BookItemTmp;

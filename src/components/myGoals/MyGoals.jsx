@@ -1,4 +1,7 @@
 import PropTypes from "prop-types";
+import { ThemeProvider } from "styled-components";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import {
   StyledGoalsWrapper,
@@ -8,19 +11,13 @@ import {
   StyledGoalsCount,
   StyledGoalsText,
 } from "./StyledMyGoals";
-import { GoalsProvider } from "./goalsContext";
 import goalsSelectors from "redux/goal/goalsSelectors";
-import { ThemeProvider } from "styled-components";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useAchievedGoalMutation } from "redux/goal/goalsApiSlice";
 import authSelectors from "redux/auth/authSelectors";
-import booksSelectors from "redux/book/booksSelectors";
 
 const MyGoals = ({ books, dateDiff }) => {
   const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
   const haveGoal = useSelector(authSelectors.selectHaveGoal);
-  const haveBooks = useSelector(booksSelectors.selectHaveBooks);
   const booksForGoals = useSelector(goalsSelectors.selectBooksForGoal);
   const isAchieved = useSelector(goalsSelectors.selectGoalAchiv);
   const unreadBooksForGoal = useSelector(
@@ -33,19 +30,24 @@ const MyGoals = ({ books, dateDiff }) => {
 
   const [achievedGoal] = useAchievedGoalMutation();
 
-  const shouldAcheveGoal =
-    unreadBooksForGoal?.length === 0 &&
-    isTraningBegin &&
-    haveGoal &&
-    haveBooks &&
-    !isAchieved;
-
   useEffect(() => {
-    if (shouldAcheveGoal) {
+    if (
+      unreadBooksForGoal?.length === 0 &&
+      isTraningBegin &&
+      haveGoal &&
+      !isAchieved
+    ) {
       achievedGoal({ goalId: id, result: { isGoalAchieved: true } });
     }
-  }, [achievedGoal, id, shouldAcheveGoal]);
-  // isGoalTimeOut: true || isGoalAchieved: true
+  }, [
+    achievedGoal,
+    haveGoal,
+    id,
+    isAchieved,
+    isTraningBegin,
+    unreadBooksForGoal?.length,
+  ]);
+
   const timeForGoalLeft =
     endDate &&
     beginDate &&
@@ -55,7 +57,10 @@ const MyGoals = ({ books, dateDiff }) => {
     ? unreadBooksForGoal?.length
     : books?.length;
 
-  const amountDays = dateDiff !== 0 ? timeForGoalLeft : 0;
+  const achievedBooks =
+    booksForGoals?.length === 0 ? books?.length : booksForGoals?.length;
+
+  const amountDays = Math.ceil(dateDiff !== 0 ? timeForGoalLeft : 0);
 
   return (
     <ThemeProvider theme={{ isTraning: isTraningBegin }}>
@@ -63,7 +68,7 @@ const MyGoals = ({ books, dateDiff }) => {
         <StyledGoalsTitle>Моя мета прочитати</StyledGoalsTitle>
         <StyledGoalsCountWrapper>
           <StyledGoalsContainer>
-            <StyledGoalsCount>{booksForGoals?.length}</StyledGoalsCount>
+            <StyledGoalsCount>{achievedBooks}</StyledGoalsCount>
             <StyledGoalsText>Кількість книжок</StyledGoalsText>
           </StyledGoalsContainer>
           <StyledGoalsContainer>
@@ -87,7 +92,8 @@ const MyGoals = ({ books, dateDiff }) => {
 };
 
 MyGoals.propTypes = {
-  books: PropTypes.array,
+  books: PropTypes.arrayOf(PropTypes.object),
+  dateDiff: PropTypes.number,
 };
 
 export default MyGoals;

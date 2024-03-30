@@ -11,8 +11,7 @@ const MainButton = ({
   isDatePicked,
   ...props
 }) => {
-  const { isMobile, isTablet, isDesktop } = useMatchMedia();
-  const deviceSize = isTablet || isDesktop;
+  const { isMobile } = useMatchMedia();
 
   const typeOfButton =
     text === "Зареєструватись" || text === "Увійти"
@@ -39,6 +38,7 @@ MainButton.propTypes = {
   btnAtion: PropTypes.func,
   register: PropTypes.string,
   typeBtn: PropTypes.string.isRequired,
+  isDatePicked: PropTypes.bool,
 };
 
 export default MainButton;

@@ -12,8 +12,6 @@ const StyledRegLogContainer = styled.div`
   margin-top: ${({ $page }) => ($page === "/register" ? "60px" : "70px")};
 
   width: 400px;
-  /* height: 610px; */
-  /* height: ${({ $page }) => ($page === "/register" ? "" : "420px")}; */
 
   background-color: #fff;
 
@@ -31,7 +29,6 @@ const StyledBackgroundContainer = styled.div`
 
   padding-top: 30px;
 
-  /* height: ${(props) => (props.$page === "/login" ? "370px" : "")}; */
   box-shadow: 0px 2px 3px 0px rgba(9, 30, 63, 0.1);
   background: rgba(9, 30, 63, 0.8);
 
@@ -47,7 +44,6 @@ const StyledBackgroundContainer = styled.div`
   }
 
   @media screen and (min-width: 768px) {
-    /* min-width: 730px; */
     height: ${(props) => (props.$page === "/login" ? "560px" : "730px")};
 
     padding-top: 0px;
@@ -83,7 +79,6 @@ const StyledLink = styled(Link)`
 const StyledRegisterWrapper = styled.div`
   @media screen and (min-width: 1280px) {
     display: flex;
-    /* justify-content: center; */
   }
 `;
 

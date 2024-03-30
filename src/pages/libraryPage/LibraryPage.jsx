@@ -1,86 +1,98 @@
-import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { useMatchMedia } from "helpers/mediaQuery";
-
-import CategoryLibrary from "components/common/сategoryLibrary/CategoryLibrary";
-
-import { useGetBookQuery } from "redux/book/booksApiSlice";
 import { motion } from "framer-motion";
-import { StyledLibralyPage } from "./StyledLibralyPage";
-import LinkPageAdd from "components/common/LinkPageAdd";
-import FormAddBook from "components/common/formAddBook/FormAddBook";
-import EmptySteps from "components/common/EmptySteps";
 import { useSelector } from "react-redux";
+import { HashLoader } from "react-spinners";
+
+import CategoryLibrary from "components/сategoryLibrary";
+import { useGetBookQuery } from "redux/book/booksApiSlice";
+import { StyledLibralyPage } from "./StyledLibralyPage";
+import LinkPageAdd from "components/common/linkPageAdd";
+import FormAddBook from "components/common/formAddBook";
+import EmptySteps from "components/emptySteps";
 import booksSelectors from "redux/book/booksSelectors";
-import { skipToken } from "@reduxjs/toolkit/query";
+import Container from "components/common/container";
+import Loader from "components/common/loader";
 
 const LibraryPage = () => {
   const isHaveBooks = useSelector(booksSelectors.selectHaveBooks);
 
-  const [books, setBooks] = useState(null || []);
   const [isReadBooks, setIsReadBooks] = useState([]);
   const [isWantReadToBooks, setWantReadToBooks] = useState([]);
+
   const [isReadingBooks, setIsReadingBooks] = useState([]);
-  const { isMobile, isTablet, isDesktop } = useMatchMedia();
+  const { isMobile } = useMatchMedia();
 
-  const { data } = useGetBookQuery(undefined, { skip: !isHaveBooks });
-
-  // useEffect(() => {
-  //   import("./books.json")
-  //     .then((data) => {
-  //       setBooks(data.books);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Ошибка");
-  //     });
-  // }, []);
+  const { data: books, isLoading } = useGetBookQuery({
+    skip: !isHaveBooks,
+  });
 
   useEffect(() => {
     if (books) {
       const readingBooks = books.filter(
-        (book) => book.rating === "Вже прочитано"
+        (book) => book.status === "Вже прочитано"
       );
       setIsReadingBooks(readingBooks);
-      const readBooks = books.filter((book) => book.rating === "Читаю");
+      const readBooks = books.filter((book) => book.status === "Читаю");
       setIsReadBooks(readBooks);
       const wantRead = books.filter(
-        (book) => book.rating === "Маю намір прочитати"
+        (book) => book.status === "Маю намір прочитати"
       );
       setWantReadToBooks(wantRead);
     }
   }, [books]);
 
   return isMobile ? (
-    <StyledLibralyPage>
-      <CategoryLibrary
-        isReadingBooks={isReadingBooks}
-        isReadBooks={isReadBooks}
-        isWantReadToBooks={isWantReadToBooks}
-      />
-      <LinkPageAdd page={"/addbook"} />
-    </StyledLibralyPage>
-  ) : (
-    <StyledLibralyPage
-      as={motion.div}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <FormAddBook />
-      {books ? (
-        <CategoryLibrary
-          isReadingBooks={isReadingBooks}
-          isReadBooks={isReadBooks}
-          isWantReadToBooks={isWantReadToBooks}
+    <>
+      {isLoading ? (
+        <HashLoader
+          color="#FF6B08"
+          size={200}
+          cssOverride={{ marginTop: "130px", marginLeft: "70px" }}
         />
       ) : (
-        <EmptySteps />
+        <StyledLibralyPage
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <CategoryLibrary
+            isReadingBooks={isReadingBooks}
+            isReadBooks={isReadBooks}
+            isWantReadToBooks={isWantReadToBooks}
+          />
+          <LinkPageAdd page={"/addbook"} />
+        </StyledLibralyPage>
       )}
-    </StyledLibralyPage>
+    </>
+  ) : (
+    <Container>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <StyledLibralyPage
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <FormAddBook />
+          {books?.length !== 0 ? (
+            <CategoryLibrary
+              isReadingBooks={isReadingBooks}
+              isReadBooks={isReadBooks}
+              isWantReadToBooks={isWantReadToBooks}
+            />
+          ) : (
+            <EmptySteps />
+          )}
+        </StyledLibralyPage>
+      )}
+    </Container>
   );
 };
-
-LibraryPage.propTypes = {};
 
 export default LibraryPage;

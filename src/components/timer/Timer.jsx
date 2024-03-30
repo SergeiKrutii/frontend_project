@@ -1,13 +1,8 @@
 import PropTypes from "prop-types";
-import moment from "moment";
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-} from "date-fns";
-import { useTimerEndYear, useTimerForGoal } from "helpers/useTimer";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
+import { useTimerEndYear, useTimerForGoal } from "helpers/useTimer";
 import {
   StyledTimerWrapper,
   StyledTimerText,
@@ -17,8 +12,6 @@ import {
   StyledTimerUnitPeriod,
 } from "./StyledTimer";
 import { useAchievedGoalMutation } from "redux/goal/goalsApiSlice";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import goalsSelectors from "redux/goal/goalsSelectors";
 
 const Timer = ({ title, deadline, ...props }) => {
@@ -34,7 +27,7 @@ const Timer = ({ title, deadline, ...props }) => {
   const [achievedGoal] = useAchievedGoalMutation();
 
   const allVariablesAreZero =
-    gDays === "00" && gHours === "00" && gMinutes === "00" && gSeconds === "00";
+    gDays <= "00" && gHours <= "00" && gMinutes <= "00" && gSeconds <= "00";
 
   useEffect(() => {
     if (allVariablesAreZero) {
@@ -74,6 +67,9 @@ const Timer = ({ title, deadline, ...props }) => {
   );
 };
 
-Timer.propTypes = { title: PropTypes.string.isRequired };
+Timer.propTypes = {
+  title: PropTypes.string.isRequired,
+  deadline: PropTypes.instanceOf(Date),
+};
 
 export default Timer;

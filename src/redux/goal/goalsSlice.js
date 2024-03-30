@@ -8,6 +8,7 @@ const initialState = {
   isTraningBegin: false,
   isGoalAchieved: false,
   isGoalTimeOut: false,
+  isShowModal: false,
 };
 
 const goalSlice = createSlice({
@@ -27,12 +28,15 @@ const goalSlice = createSlice({
     },
     updateBooksFroGoal: (state, { payload }) => {
       state.booksForGoal = state.booksForGoal.map((book) =>
-        book._id === payload?._id ? { ...book, isRead: true } : book
+        book._id === payload?._id
+          ? { ...book, isRead: true, status: "Вже прочитано" }
+          : book
       );
     },
     achievedGoal: (state, { payload }) => {
       state.isGoalAchieved = payload.isGoalAchieved;
       state.isGoalTimeOut = payload.isGoalTimeOut;
+      state.isShowModal = true;
     },
 
     clearGoal: (state, { payload }) => {

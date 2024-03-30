@@ -1,6 +1,5 @@
 import { apiSlice } from "app/api/apiSlice";
 import { setLoginData, setLogout, setUser } from "./authSlice";
-import { clearGoal } from "redux/goal/goalsSlice";
 
 export const authSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,14 +9,12 @@ export const authSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...credentials },
       }),
+
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoginData(data));
-        } catch (err) {
-          //   toast.error(`${err.error.data.message}`);
-          console.log(err);
-        }
+        } catch (err) {}
       },
     }),
     signup: builder.mutation({
@@ -30,10 +27,7 @@ export const authSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data));
-        } catch (err) {
-          //   toast.error(`${err.error.data.message}`);
-          console.log(err);
-        }
+        } catch (err) {}
       },
     }),
     logout: builder.mutation({
@@ -45,10 +39,10 @@ export const authSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(setLogout());
-          dispatch(clearGoal());
-        } catch (err) {
-          console.log(err);
-        }
+          setTimeout(() => {
+            dispatch(apiSlice.util.resetApiState());
+          }, 1000);
+        } catch (err) {}
       },
     }),
     getUser: builder.query({
@@ -56,13 +50,11 @@ export const authSlice = apiSlice.injectEndpoints({
         url: "/users/current",
         method: "GET",
       }),
-      async onQueryStarted(id, { getState, dispatch, queryFulfilled }) {
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data));
-        } catch (err) {
-          console.log(err);
-        }
+        } catch (err) {}
       },
     }),
   }),

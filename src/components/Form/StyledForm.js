@@ -15,13 +15,7 @@ const StyledFormContainer = styled.div`
 `;
 
 const StyledInputWrapper = styled.div`
-  /* margin-bottom: 10px; */
   width: 270px;
-
-  /* &:nth-child(4) {
-    margin-bottom: 30px;
-
-  } */
 
   &:last-of-type {
     margin-bottom: 30px;
@@ -30,7 +24,6 @@ const StyledInputWrapper = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
   }
 `;
 
@@ -69,7 +62,6 @@ const StyledLabel = styled.label`
     color: #898f9f;
     font-size: 12px;
     font-weight: 500;
-    /* line-height: 38px; */
   }
 `;
 
@@ -98,8 +90,6 @@ const StyledInput = styled.input`
     outline: none;
   }
 `;
-
-const StyledFormButton = styled.button``;
 
 const StyledFormikError = styled.div`
   color: red;

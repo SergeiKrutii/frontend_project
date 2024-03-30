@@ -16,10 +16,11 @@ const authSlice = createSlice({
       state.token = payload.token;
       state.userData.email = payload.user.email;
       state.userData.name = payload.user.name;
+      state.userData.id = payload.user._id;
       state.isLoggedIn = true;
     },
     setCurrentGoal: (state, { payload }) => {
-      state.haveGoal = true;
+      state.haveGoal = payload;
     },
     setUser: (state, { payload }) => {
       state.userData.email = payload.email;
@@ -28,13 +29,16 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.haveGoal = payload.haveGoal;
     },
+    setToken: (state, { payload }) => {
+      state.token = payload.token;
+    },
     setLogout: (state, { payload }) => {
       return initialState;
     },
   },
 });
 
-export const { setLoginData, setLogout, setUser, setCurrentGoal } =
+export const { setLoginData, setLogout, setUser, setToken, setCurrentGoal } =
   authSlice.actions;
 
 export default authSlice.reducer;

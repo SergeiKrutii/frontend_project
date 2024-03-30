@@ -13,15 +13,19 @@ const booksSlice = createSlice({
       state.books = payload;
       state.haveBooks = true;
     },
+    updateBookRating: (state, { payload }) => {
+      console.log(payload);
+    },
     setHaveBooks: (state, { payload }) => {
       state.haveBooks = true;
     },
-    // clearBooksState: (state, { payload }) => {
-    //   return initialState;
-    // },
+    clearBooksState: (state, { payload }) => {
+      return initialState;
+    },
   },
 });
 
-export const { setBooks, setHaveBooks, clearBooksState } = booksSlice.actions;
+export const { setBooks, setHaveBooks, updateBookRating, clearBooksState } =
+  booksSlice.actions;
 
 export default booksSlice.reducer;
