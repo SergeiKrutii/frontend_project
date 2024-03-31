@@ -15,8 +15,9 @@ export const goalSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setGoal(data));
+          dispatch(setCurrentGoal(true));
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
@@ -30,9 +31,9 @@ export const goalSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setGoal(data));
-          dispatch(setCurrentGoal());
+          dispatch(setCurrentGoal(true));
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
@@ -42,13 +43,13 @@ export const goalSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: result,
       }),
-      invalidatesTags: ["Goal"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(achievedGoal(data));
+          dispatch(setCurrentGoal(false));
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),

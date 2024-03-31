@@ -6,7 +6,6 @@ const StyledChartContainer = styled.div`
   height: 237px;
 
   padding: 14px 21px 39px 22px;
-  margin-top: 42px;
 
   background: #fff;
   box-shadow: 0px 2px 3px 0px rgba(9, 30, 63, 0.25);
@@ -35,7 +34,7 @@ const StyledChartContainer = styled.div`
     &::after {
       content: "Час";
       position: absolute;
-      bottom: 45px;
+      bottom: 25px;
       right: 55px;
     }
   }

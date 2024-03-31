@@ -13,7 +13,7 @@ export const resultSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
@@ -27,7 +27,7 @@ export const resultSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),

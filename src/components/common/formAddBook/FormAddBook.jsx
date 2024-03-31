@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
 import { useMatchMedia } from "helpers/mediaQuery";
 import {
   StyledForm,
@@ -12,14 +12,13 @@ import {
   StyledInputYear,
   StyledInputPages,
   StyledFormMobileBox,
-  StyledInputWrapperBoxMobile,
-  StyledFormDestopBox,
+  StyledConponentWrapper,
 } from "./StyledFormAddBook";
-
+import GetBackButton from "components/common/getBackButton";
 import { useAddBookMutation } from "redux/book/booksApiSlice";
 
 const FormAddBook = (props) => {
-  const { isMobile, isDesktop } = useMatchMedia();
+  const { isMobile } = useMatchMedia();
   const [setBooks] = useAddBookMutation();
 
   const formik = useFormik({
@@ -30,75 +29,37 @@ const FormAddBook = (props) => {
       amount_page: "",
     },
 
-    onSubmit: (values) => {
+    onSubmit: ({ title, author, publication_date, amount_page }) => {
+      const isEmptyField =
+        title === "" ||
+        author === "" ||
+        publication_date === "" ||
+        amount_page === "";
+
+      if (isEmptyField) {
+        toast.warning("Ви не заповнили всі поля!", { theme: "colored" });
+        return;
+      }
+
       const newBook = {
-        title: values.title,
-        author: values.author,
-        publication_date: values.publication_date,
-        amount_page: values.amount_page,
+        title: title,
+        author: author,
+        publication_date: publication_date,
+        amount_page: amount_page,
       };
 
       setTimeout(() => {
         setBooks(newBook);
+        toast.success("Книгу додано!", { theme: "colored" });
       }, 500);
 
-      // formik.resetForm();
+      formik.resetForm();
     },
   });
 
   return isMobile ? (
-    <StyledForm onSubmit={formik.handleSubmit}>
-      <StyledInputWrapper>
-        <StyledInputTitle
-          id="title"
-          name="title"
-          type="text"
-          placeholder="..."
-          onChange={formik.handleChange}
-          value={formik.values.title}
-        />
-        <StyledLabel htmlFor="title">Назва книги</StyledLabel>
-      </StyledInputWrapper>
-
-      <StyledInputWrapper>
-        <StyledInputAuthor
-          id="author"
-          name="author"
-          type="text"
-          placeholder="..."
-          onChange={formik.handleChange}
-          value={formik.values.author}
-        />
-        <StyledLabel htmlFor="author">Автор книги</StyledLabel>
-      </StyledInputWrapper>
-
-      <StyledInputWrapper>
-        <StyledInputYear
-          id="publication_date"
-          name="publication_date"
-          type="text"
-          placeholder="..."
-          onChange={formik.handleChange}
-          value={formik.values.publication_date}
-        />
-        <StyledLabel htmlFor="publication_date">Рік випуску</StyledLabel>
-      </StyledInputWrapper>
-
-      <StyledInputWrapper>
-        <StyledInputPages
-          id="amount_page"
-          name="amount_page"
-          type="text"
-          placeholder="..."
-          onChange={formik.handleChange}
-          value={formik.values.amount_page}
-        />
-        <StyledLabel htmlFor="amount_page">Кількість сторінок</StyledLabel>
-      </StyledInputWrapper>
-      <StyledFormBtn type="submit">Додати</StyledFormBtn>
-    </StyledForm>
-  ) : (
-    <StyledFormMobileBox>
+    <div>
+      <GetBackButton path={"/library"} />
       <StyledForm onSubmit={formik.handleSubmit}>
         <StyledInputWrapper>
           <StyledLabel htmlFor="title">Назва книги</StyledLabel>
@@ -111,7 +72,6 @@ const FormAddBook = (props) => {
             value={formik.values.title}
           />
         </StyledInputWrapper>
-        {/* <StyledInputWrapperBoxMobile> */}
         <StyledInputWrapper>
           <StyledLabel htmlFor="author">Автор книги</StyledLabel>
           <StyledInputAuthor
@@ -147,13 +107,63 @@ const FormAddBook = (props) => {
             value={formik.values.amount_page}
           />
         </StyledInputWrapper>
-        {/* </StyledInputWrapperBoxMobile> */}
+        <StyledFormBtn type="submit">Додати</StyledFormBtn>
+      </StyledForm>
+    </div>
+  ) : (
+    <StyledFormMobileBox>
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <StyledInputWrapper>
+          <StyledLabel htmlFor="title">Назва книги</StyledLabel>
+          <StyledInputTitle
+            id="title"
+            name="title"
+            type="text"
+            placeholder="..."
+            onChange={formik.handleChange}
+            value={formik.values.title}
+          />
+        </StyledInputWrapper>
+        <StyledConponentWrapper>
+          <StyledInputWrapper>
+            <StyledLabel htmlFor="author">Автор книги</StyledLabel>
+            <StyledInputAuthor
+              id="author"
+              name="author"
+              type="text"
+              placeholder="..."
+              onChange={formik.handleChange}
+              value={formik.values.author}
+            />
+          </StyledInputWrapper>
+          <StyledInputWrapper>
+            <StyledLabel htmlFor="publication_date">Рік випуску</StyledLabel>
+            <StyledInputYear
+              id="publication_date"
+              name="publication_date"
+              type="text"
+              placeholder="..."
+              onChange={formik.handleChange}
+              value={formik.values.publication_date}
+            />
+          </StyledInputWrapper>
+
+          <StyledInputWrapper>
+            <StyledLabel htmlFor="amount_page">Кількість сторінок</StyledLabel>
+            <StyledInputPages
+              id="amount_page"
+              name="amount_page"
+              type="text"
+              placeholder="..."
+              onChange={formik.handleChange}
+              value={formik.values.amount_page}
+            />
+          </StyledInputWrapper>
+        </StyledConponentWrapper>
         <StyledFormBtn type="submit">Додати</StyledFormBtn>
       </StyledForm>
     </StyledFormMobileBox>
   );
 };
-
-FormAddBook.propTypes = {};
 
 export default FormAddBook;

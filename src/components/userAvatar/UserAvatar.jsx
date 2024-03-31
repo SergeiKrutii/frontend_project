@@ -1,28 +1,18 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import authSelectors from "redux/auth/authSelectors";
 import Avatar from "@mui/material/Avatar";
 
+import authSelectors from "redux/auth/authSelectors";
 import {
   StyledNavListItemTablet,
   StyledNavListTablet,
   StyledNavParagraphTablet,
+  avatarStyles,
 } from "./StyledUserAvatar";
-
-const avatarStyles = {
-  color: "#242A37",
-  fontFamily: "Montserrat",
-  fontSize: "14px",
-  fontWeight: "600",
-  lineHeight: "38px",
-  width: 33,
-  height: 33,
-};
 
 const UserAvatar = (props) => {
   const userName = useSelector(authSelectors.selectName);
 
-  let firstLetter = userName.slice(0, 1).toUpperCase();
+  let firstLetter = userName?.slice(0, 1).toUpperCase();
 
   return (
     <StyledNavListTablet>
@@ -37,7 +27,5 @@ const UserAvatar = (props) => {
     </StyledNavListTablet>
   );
 };
-
-UserAvatar.propTypes = {};
 
 export default UserAvatar;

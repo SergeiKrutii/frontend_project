@@ -11,7 +11,6 @@ const StyledQuoteWrapper = styled.div`
     padding: 70px 121px;
   }
   @media screen and (min-width: 1280px) {
-    /* flex-direction: row; */
     justify-content: center;
     margin-left: auto;
     margin-right: auto;

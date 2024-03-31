@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 import { useFormik } from "formik";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Calendar from "react-calendar";
+import { useEffect, useState } from "react";
+
 import MainButton from "components/common/mainButton";
 import {
   StyledResultWrapper,
@@ -19,14 +21,12 @@ import {
   StyledStatisticResult,
   StyledResultsContainer,
 } from "./StyledAddResult";
-import { useEffect, useState } from "react";
 import { useAddResultMutation } from "redux/result/resultApiSlice";
 
 const AddResult = ({ results = [] }) => {
   const [onShow, setOnShow] = useState(false);
-  const [calendarDate, setCalendarDate] = useState("");
 
-  const [addResult, { data }] = useAddResultMutation();
+  const [addResult] = useAddResultMutation();
 
   const handleToggleCalendar = (e) => {
     setOnShow((prev) => !prev);
@@ -62,9 +62,12 @@ const AddResult = ({ results = [] }) => {
       pageAmount: "",
     },
     onSubmit: (values) => {
-      // if (isResultPicked) {
-      //   toast("Ви не обрали дату чи кількість сторінок");
-      // }
+      if (isResultPicked) {
+        toast.warning("Ви не обрали дату чи кількість сторінок", {
+          theme: "colored",
+        });
+        return;
+      }
       addResult(values);
       formik.resetForm();
     },
@@ -76,7 +79,6 @@ const AddResult = ({ results = [] }) => {
 
   return (
     <StyledResultWrapper>
-      <ToastContainer position="bottom-center" />
       <StyledResultTitle>Результати</StyledResultTitle>
       <StyledResultForm onSubmit={formik.handleSubmit}>
         <StyledResultDate>
@@ -94,10 +96,7 @@ const AddResult = ({ results = [] }) => {
           </StyledResultInputWrapper>
           {onShow && (
             <StyledCalendarWrapper>
-              <Calendar
-                onChange={(date) => onChangeDate(date)}
-                value={calendarDate}
-              />
+              <Calendar onChange={(date) => onChangeDate(date)} />
             </StyledCalendarWrapper>
           )}
           <StyledResultInputWrapper>
@@ -114,7 +113,6 @@ const AddResult = ({ results = [] }) => {
           </StyledResultInputWrapper>
         </StyledResultDate>
         <MainButton
-          isDatePicked={isResultPicked}
           typeBtn="submit"
           text={"Додати результат"}
           register="true"
@@ -136,6 +134,8 @@ const AddResult = ({ results = [] }) => {
   );
 };
 
-AddResult.propTypes = {};
+AddResult.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default AddResult;

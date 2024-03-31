@@ -1,5 +1,15 @@
 import styled from "styled-components";
 
+const avatarStyles = {
+  color: "#242A37",
+  fontFamily: "Montserrat",
+  fontSize: "14px",
+  fontWeight: "600",
+  lineHeight: "38px",
+  width: 33,
+  height: 33,
+};
+
 const StyledNavListTablet = styled.ul`
   display: flex;
   align-items: center;
@@ -22,4 +32,5 @@ export {
   StyledNavListItemTablet,
   StyledNavListTablet,
   StyledNavParagraphTablet,
+  avatarStyles,
 };

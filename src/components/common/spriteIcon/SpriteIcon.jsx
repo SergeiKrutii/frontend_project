@@ -21,6 +21,18 @@ const SpriteIcon = ({ name, ...props }) => {
         marginRight: "16px",
       };
       break;
+    case "icon-Vector":
+      iconStyles = {
+        height: "12px",
+        width: "10px",
+      };
+      break;
+    case "icon-flag":
+      iconStyles = {
+        height: "17px",
+        width: "22px",
+      };
+      break;
     case "icon_quotes":
       iconStyles = {
         height: "30px",
@@ -37,6 +49,7 @@ const SpriteIcon = ({ name, ...props }) => {
       iconStyles = {
         height: "29px",
         width: "32px",
+        fill: "#ff6b08",
       };
       break;
     case "icon_headerLine":
@@ -49,7 +62,6 @@ const SpriteIcon = ({ name, ...props }) => {
       iconStyles = {
         height: "1px",
         width: "270px",
-        marginBottom: "25px",
       };
       break;
     case "icon_calendar":
@@ -83,6 +95,8 @@ const SpriteIcon = ({ name, ...props }) => {
       iconStyles = {
         height: "17px",
         width: "22px",
+        fill: props.$shuldFill === true ? "FF6B08" : "#a6abb9",
+        color: "FF6B08",
       };
       break;
     case "icon_traningLineDesc":
@@ -103,6 +117,12 @@ const SpriteIcon = ({ name, ...props }) => {
       iconStyles = {
         height: "54px",
         width: "54px",
+      };
+      break;
+    case "icon_tabletTraningLine":
+      iconStyles = {
+        height: "1px",
+        width: "678px",
       };
       break;
 

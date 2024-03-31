@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+
 import { useLogoutMutation } from "redux/auth/authApiSlice";
 import MainButton from "../mainButton";
 import {
@@ -6,9 +8,15 @@ import {
   StyledWarningText,
   StyledWarningButtonWrapper,
 } from "./StyledContentForModal";
+import { clearBooksState } from "redux/book/booksSlice";
 
-const Warning = ({ handleToggle }) => {
+const Warning = ({ handleToggle = () => {} }) => {
+  const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
+  const handleLogout = () => {
+    logout();
+    dispatch(clearBooksState());
+  };
 
   return (
     <StyledWarningWrapper>
@@ -21,12 +29,14 @@ const Warning = ({ handleToggle }) => {
           typeBtn={"button"}
           btnAtion={handleToggle}
         />
-        <MainButton text={"Вийти"} typeBtn={"button"} btnAtion={logout} />
+        <MainButton text={"Вийти"} typeBtn={"button"} btnAtion={handleLogout} />
       </StyledWarningButtonWrapper>
     </StyledWarningWrapper>
   );
 };
 
-Warning.propTypes = {};
+Warning.propTypes = {
+  handleToggle: PropTypes.func,
+};
 
 export default Warning;

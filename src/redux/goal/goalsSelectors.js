@@ -13,6 +13,7 @@ const selectUnreadBooksForGoal = createSelector(
 const selectGoalId = (state) => state.goal.goalId;
 const selectGoalAchiv = (state) => state.goal.isGoalAchieved;
 const selectTimeOut = (state) => state.goal.isGoalTimeOut;
+const selectIsShowModal = (state) => state.goal.isShowModal;
 
 const goalsSelectors = {
   selectBeginDate,
@@ -23,6 +24,7 @@ const goalsSelectors = {
   selectUnreadBooksForGoal,
   selectGoalAchiv,
   selectTimeOut,
+  selectIsShowModal,
 };
 
 export default goalsSelectors;

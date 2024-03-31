@@ -9,13 +9,13 @@ export const bookSlice = apiSlice.injectEndpoints({
         url: "/books",
         method: "GET",
       }),
-      provaidesTags: ["Books"],
+      providesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setBooks(data));
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
@@ -32,39 +32,30 @@ export const bookSlice = apiSlice.injectEndpoints({
           dispatch(setBooks(data));
           dispatch(setHaveBooks());
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
-
-    deleteBookId: builder.mutation({
-      query: (id) => ({
-        url: `/books/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Books"],
-    }),
-
     getBookById: builder.query({
       query: (id, newData) => ({
         url: `/books/${id}`,
         method: "GET",
         body: newData,
       }),
-      providesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           dispatch(setBooks(data));
         } catch (error) {
-          console.log(error);
+          //error processed in api
         }
       },
     }),
     updateStatusBook: builder.mutation({
-      query: (id) => ({
+      query: ({ id, rating }) => ({
         url: `/books/${id}`,
         method: "PATCH",
+        body: rating,
       }),
       invalidatesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -72,7 +63,22 @@ export const bookSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(updateBooksFroGoal(data));
         } catch (error) {
-          console.log(error);
+          //error processed in api
+        }
+      },
+    }),
+    setBookRating: builder.mutation({
+      query: (bookReview) => ({
+        url: `/books/${bookReview.id}`,
+        method: "PUT",
+        body: `${bookReview.review}`,
+      }),
+      invalidatesTags: ["Books"],
+      async onQueryStarted(id, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          //error processed in api
         }
       },
     }),
@@ -82,7 +88,7 @@ export const bookSlice = apiSlice.injectEndpoints({
 export const {
   useGetBookQuery,
   useAddBookMutation,
-  useDeleteBookIdMutation,
   useGetBookByIdQuery,
   useUpdateStatusBookMutation,
+  useSetBookRatingMutation,
 } = bookSlice;

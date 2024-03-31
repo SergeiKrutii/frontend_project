@@ -38,8 +38,6 @@ export const modalBtn = (isMobile, text) => ({
   lineHeight: "38px",
 });
 
-export const modalCancel = (isMobile) => ({});
-
 const StyledMainButton = styled.button`
   width: 127px;
   height: 40px;
@@ -67,10 +65,6 @@ const StyledMainButton = styled.button`
   @media screen and (min-width: 768px) {
     border: none;
   }
-
-  /* "& > *:not(:last-child)": {
-    marginRight: 15,
-  }, */
 `;
 
 export default StyledMainButton;

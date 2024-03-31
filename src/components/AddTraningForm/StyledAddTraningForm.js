@@ -130,7 +130,7 @@ const StyledAddTraningButton = styled.button`
   margin-right: auto;
   margin-left: auto;
 
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   border: 1px solid #242a37;
   background: #f6f7fb;
 
@@ -168,6 +168,7 @@ const StyledCalendarWrapper = styled.div`
   @media screen and (min-width: 768px) {
     max-width: 250px;
     left: 0px;
+    z-index: 5;
   }
 `;
 

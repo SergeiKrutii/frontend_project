@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledContainerDiv = styled.div`
@@ -22,6 +21,7 @@ const StyledInfoWrapper = styled.div`
     margin-bottom: 20px;
     margin-left: 100px;
   }
+
   @media screen and (min-width: 1280px) {
     margin-left: 90px;
   }

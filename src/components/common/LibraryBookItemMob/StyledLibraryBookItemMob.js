@@ -3,17 +3,19 @@ import checkBoxIcon from "../../images/checkbox.svg";
 
 const StyledBookItem = styled.div(({ $page }) => ({
   width: "270px",
-  minHeight: "120px",
   background: $page === "/traning" ? "transparent" : "white",
-  marginTop: $page === "/traning" ? 0 : 10,
+  marginTop: $page === "/traning" ? 0 : 15,
+  padding: "20px 0px 0px 0px",
+
+  "@media screen and (min-width: 768px)": {
+    padding: 0,
+  },
 }));
 
 const StyledItemTitleBook = styled.div(({ $page }) => ({
-  // width: 175,
   display: "flex",
-  alignItems: "end",
+  alignItems: "flex-start",
   marginLeft: $page === "/traning" ? 0 : 22,
-  paddingTop: $page === "/traning" ? 0 : 13,
 }));
 
 const StyledBookButton = styled.button`
@@ -21,14 +23,20 @@ const StyledBookButton = styled.button`
   background-color: transparent;
   padding: 0;
   margin-left: auto;
+  fill: #a6abb9;
 `;
 
 const StyledNameBook = styled.p({
+  width: "193px",
   marginLeft: 13,
   fontSize: 12,
   fontFamily: "Montserrat",
   fontWeight: 500,
   color: "#242A37",
+
+  "@media screen and (min-width: 768px)": {
+    width: "auto",
+  },
 });
 
 const StyledBookCheckboxContainer = styled.div`
@@ -112,6 +120,8 @@ const StyledRatingBox = styled.div({
 const StyledRatingChapter = styled.div({
   height: 20,
   width: 65,
+
+  marginLeft: 57,
   color: "#898F9F",
   fontSize: 12,
   fontWeight: 500,

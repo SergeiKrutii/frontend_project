@@ -1,11 +1,12 @@
-import Form from "components/Form";
 import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+
+import Form from "components/form";
 import { StyledRegisterWrapper } from "./StyledRegisterPage";
 import GoogleButton from "components/common/googleButton";
 import { useMatchMedia } from "helpers/mediaQuery";
 import Info from "components/info";
 import RegLogContainer from "components/common/container/regLogContainer";
-import { motion } from "framer-motion";
 
 const RegisterPage = () => {
   const { pathname } = useLocation();
