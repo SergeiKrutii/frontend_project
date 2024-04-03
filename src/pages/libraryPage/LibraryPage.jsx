@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMatchMedia } from "helpers/mediaQuery";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import { HashLoader } from "react-spinners";
 
 import CategoryLibrary from "components/сategoryLibrary";
 import { useGetBookQuery } from "redux/book/booksApiSlice";
@@ -13,9 +12,13 @@ import EmptySteps from "components/emptySteps";
 import booksSelectors from "redux/book/booksSelectors";
 import Container from "components/common/container";
 import Loader from "components/common/loader";
+import authSelectors from "redux/auth/authSelectors";
+import { useNavigate } from "react-router-dom";
 
 const LibraryPage = () => {
   const isHaveBooks = useSelector(booksSelectors.selectHaveBooks);
+  const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
+  const shuldFetch = useRef(isHaveBooks);
 
   const [isReadBooks, setIsReadBooks] = useState([]);
   const [isWantReadToBooks, setWantReadToBooks] = useState([]);
@@ -23,19 +26,23 @@ const LibraryPage = () => {
   const [isReadingBooks, setIsReadingBooks] = useState([]);
   const { isMobile } = useMatchMedia();
 
-  const { data: books, isLoading } = useGetBookQuery({
-    skip: !isHaveBooks,
-  });
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!isLoggedIn) navigate("/login");
+  // }, [isLoggedIn, navigate]);
+
+  const { data: books, isLoading, isFetching } = useGetBookQuery();
 
   useEffect(() => {
     if (books) {
-      const readingBooks = books.filter(
+      const readingBooks = books?.filter(
         (book) => book.status === "Вже прочитано"
       );
       setIsReadingBooks(readingBooks);
-      const readBooks = books.filter((book) => book.status === "Читаю");
+      const readBooks = books?.filter((book) => book.status === "Читаю");
       setIsReadBooks(readBooks);
-      const wantRead = books.filter(
+      const wantRead = books?.filter(
         (book) => book.status === "Маю намір прочитати"
       );
       setWantReadToBooks(wantRead);
@@ -44,12 +51,8 @@ const LibraryPage = () => {
 
   return isMobile ? (
     <>
-      {isLoading ? (
-        <HashLoader
-          color="#FF6B08"
-          size={200}
-          cssOverride={{ marginTop: "130px", marginLeft: "70px" }}
-        />
+      {isLoading || isFetching ? (
+        <Loader className="showcase-item__new-loader" />
       ) : (
         <StyledLibralyPage
           as={motion.div}
@@ -70,7 +73,7 @@ const LibraryPage = () => {
   ) : (
     <Container>
       {isLoading ? (
-        <Loader />
+        <Loader className="showcase-item__new-loader" />
       ) : (
         <StyledLibralyPage
           as={motion.div}

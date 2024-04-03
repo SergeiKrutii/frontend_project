@@ -40,7 +40,6 @@ const AddTraningForm = ({ setGoalBooks, books, setDateDiff }) => {
 
   const timeForGoalLeft =
     endDate && beginDate ? (endDate - beginDate) / (1000 * 60 * 60 * 24) : 0;
-  console.log("🚀 ~ timeForGoalLeft:", timeForGoalLeft);
 
   const localStorValue = JSON.parse(localStorage.getItem("persist:goal"));
   const isDateSetStart = localStorValue?.beginDate.slice(1, -1);

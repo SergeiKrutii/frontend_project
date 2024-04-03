@@ -33,6 +33,8 @@ const App = () => {
 
   const { isError, isFetching } = useGetUserQuery(token ?? skipToken);
 
+  const isLoaderShown = isError || isFetching;
+
   const handleDeleteTraningBook = (bookId) => {
     const filteredBooks = booksForGoalsMob.filter(
       (book) => book._id !== bookId
@@ -46,7 +48,7 @@ const App = () => {
       {isMobile ? (
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout isLoaderShown={isLoaderShown} />}>
               <Route element={<PublicRoute />}>
                 <Route path="/" element={<InfoPage />} />
                 <Route path="/login" element={<LoginPage />} />
