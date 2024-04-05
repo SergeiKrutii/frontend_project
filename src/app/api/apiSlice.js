@@ -22,7 +22,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status !== 401)
-    toast.warning(`${result.error.data.message}`, { theme: "colored" });
+    toast.warning(`${result?.error?.data?.message}`, {
+      theme: "colored",
+      containerId: "mainContainer",
+    });
 
   if (result.error && result.error.status === 401) {
     const refreshResult = await baseQuery("/users/refresh", api, extraOptions);

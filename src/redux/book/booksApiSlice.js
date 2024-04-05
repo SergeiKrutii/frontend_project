@@ -28,8 +28,7 @@ export const bookSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Books"],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          dispatch(setBooks(data));
+          await queryFulfilled;
           dispatch(setHaveBooks());
         } catch (error) {
           //error processed in api

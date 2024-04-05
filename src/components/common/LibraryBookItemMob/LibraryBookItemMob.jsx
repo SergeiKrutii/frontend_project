@@ -34,7 +34,7 @@ const LibraryBookItemMob = ({
   const isTraningBegin = useSelector(goalsSelectors.selectIsTraningBegin);
   const [updateBook] = useUpdateStatusBookMutation();
   const { pathname } = useLocation();
-  const [{ isRead }] = useSelector(booksSelectors.findBookById(book._id));
+  const { isRead } = useSelector(booksSelectors.findBookById(book._id));
 
   const bookStatus = book.status === "Читаю";
   const isShowReview =

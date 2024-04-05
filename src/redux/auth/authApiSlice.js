@@ -1,5 +1,6 @@
 import { apiSlice } from "app/api/apiSlice";
 import { setLoginData, setLogout, setUser } from "./authSlice";
+import { clearBooksState } from "redux/book/booksSlice";
 
 export const authSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,8 +26,7 @@ export const authSlice = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          dispatch(setUser(data));
+          await queryFulfilled;
         } catch (err) {}
       },
     }),
@@ -39,9 +39,10 @@ export const authSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(setLogout());
+          dispatch(clearBooksState());
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState());
-          }, 1000);
+          }, 500);
         } catch (err) {}
       },
     }),

@@ -29,6 +29,12 @@ const StyledCategoryLink = styled(Link)`
 `;
 
 const StyledCategoryItemBox = styled.div({
+  "@media screen and (max-width: 768px)": {
+    "&:first-child": {
+      marginTop: 20,
+    },
+  },
+
   "&:last-child": {
     marginBottom: 65,
   },

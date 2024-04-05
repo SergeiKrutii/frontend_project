@@ -12,13 +12,17 @@ import {
 } from "./StyledForm";
 import MainButton from "../common/mainButton";
 import { useSignupMutation, useLoginMutation } from "redux/auth/authApiSlice";
+import { useMatchMedia } from "helpers/mediaQuery";
 
 const Form = ({ loc, btnText }) => {
   const isRegisterPage = loc === "/register";
+  const { isMobile } = useMatchMedia();
 
-  const [setRegisterData, { isSuccess }] = useSignupMutation();
+  const redirectPage = isMobile ? "/" : "/library";
 
-  const [setLoginData] = useLoginMutation();
+  const [setRegisterData] = useSignupMutation();
+
+  const [setLoginData, { isSuccess: isLoginSuccess }] = useLoginMutation();
 
   const navigate = useNavigate();
 
@@ -59,14 +63,21 @@ const Form = ({ loc, btnText }) => {
 
       try {
         if (isRegisterPage) {
-          setRegisterData(values);
-        } else {
+          await setRegisterData(values);
+
           setTimeout(() => {
             setLoginData(loginData);
+            if (isLoginSuccess) {
+              navigate(redirectPage, { replace: true });
+            }
           }, 500);
-          if (isSuccess) {
-            navigate("/library", { replace: true });
-          }
+        } else {
+          setTimeout(async () => {
+            await setLoginData(loginData);
+            if (isLoginSuccess) {
+              navigate(redirectPage, { replace: true });
+            }
+          }, 1000);
         }
       } catch (error) {
         //error processed in api

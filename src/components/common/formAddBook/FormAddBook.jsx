@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useMatchMedia } from "helpers/mediaQuery";
 import {
@@ -37,7 +38,10 @@ const FormAddBook = (props) => {
         amount_page === "";
 
       if (isEmptyField) {
-        toast.warning("Ви не заповнили всі поля!", { theme: "colored" });
+        toast.warning("Ви не заповнили всі поля!", {
+          theme: "colored",
+          containerId: "mainContainer",
+        });
         return;
       }
 
@@ -50,7 +54,10 @@ const FormAddBook = (props) => {
 
       setTimeout(() => {
         setBooks(newBook);
-        toast.success("Книгу додано!", { theme: "colored" });
+        toast.success("Книгу додано!", {
+          theme: "colored",
+          containerId: "mainContainer",
+        });
       }, 500);
 
       formik.resetForm();

@@ -65,10 +65,15 @@ const AddResult = ({ results = [] }) => {
       if (isResultPicked) {
         toast.warning("Ви не обрали дату чи кількість сторінок", {
           theme: "colored",
+          containerId: "mainContainer",
         });
         return;
       }
       addResult(values);
+      toast.success("Результат додано!", {
+        theme: "colored",
+        containerId: "mainContainer",
+      });
       formik.resetForm();
     },
   });

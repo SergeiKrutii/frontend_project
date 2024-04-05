@@ -13,7 +13,7 @@ const Loader = (rest) => {
       viewBox="0 0 1500 1100"
       backgroundColor="#d6d9e3"
       foregroundColor="#ecebeb"
-      speed={2}
+      speed={3}
       {...rest}
     >
       <rect x="0" y="15" rx="1" ry="1" width="300" height="40" />

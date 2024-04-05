@@ -12,25 +12,36 @@ const RegisterPage = () => {
   const { pathname } = useLocation();
   const { isMobile } = useMatchMedia();
 
-  return isMobile ? (
-    <RegLogContainer text={"Вже з нами?"} link={"/login"} textLink={"Увійти"}>
-      <GoogleButton />
-      <Form loc={pathname} btnText={"Зареєструватись"} />
-    </RegLogContainer>
-  ) : (
-    <StyledRegisterWrapper
-      as={motion.div}
+  return (
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <RegLogContainer text={"Вже з нами?"} link={"/login"} textLink={"Увійти"}>
-        <GoogleButton />
-        <Form loc={pathname} btnText={"Зареєструватись"} />
-      </RegLogContainer>
-      <Info />
-    </StyledRegisterWrapper>
+      {isMobile ? (
+        <RegLogContainer
+          text={"Вже з нами?"}
+          link={"/login"}
+          textLink={"Увійти"}
+        >
+          <GoogleButton />
+          <Form loc={pathname} btnText={"Зареєструватись"} />
+        </RegLogContainer>
+      ) : (
+        <StyledRegisterWrapper>
+          <RegLogContainer
+            text={"Вже з нами?"}
+            link={"/login"}
+            textLink={"Увійти"}
+          >
+            <GoogleButton />
+            <Form loc={pathname} btnText={"Зареєструватись"} />
+          </RegLogContainer>
+          <Info />
+        </StyledRegisterWrapper>
+      )}
+    </motion.div>
   );
 };
 

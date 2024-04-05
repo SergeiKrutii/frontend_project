@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { HashLoader } from "react-spinners";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -26,6 +25,7 @@ import {
 } from "./StyledTraningPage";
 import Timer from "components/timer";
 import AddResult from "components/addResult";
+import Loader from "components/common/loader/Loader";
 
 const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
   const [booksIdForGoals, setBooksIdForGoals] = useState([]);
@@ -72,7 +72,7 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
     (new Date(endDate) - new Date(beginDate)) / (1000 * 60 * 60 * 24);
 
   const pagePerDay = Math.ceil(
-    booksForGoal?.length === 0 && !isTablet && !isDesktop
+    isTraningBegin
       ? goal?.updatedBooks.reduce(
           (acc, elem) => acc + elem.amount_page / untilGoalAchieved,
           0
@@ -82,6 +82,18 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
           0
         )
   );
+
+  // const pagePerDay = Math.ceil(
+  //   booksForGoal?.length === 0 && (isTablet || isDesktop)
+  //     ? goal?.updatedBooks.reduce(
+  //         (acc, elem) => acc + elem.amount_page / untilGoalAchieved,
+  //         0
+  //       )
+  //     : defineVariableBySize?.reduce(
+  //         (acc, elem) => acc + elem.amount_page / dateDiff,
+  //         0
+  //       )
+  // );
 
   const booksFromNewGoalMob =
     booksForGoal?.length === 0 ? goal?.updatedBooks : booksForGoal;
@@ -111,11 +123,7 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
   const mobMarcup = (
     <>
       {isLoading || isFetching ? (
-        <HashLoader
-          color="#FF6B08"
-          size={200}
-          cssOverride={{ marginTop: "130px", marginLeft: "70px" }}
-        />
+        <Loader className="showcase-item__new-loader" />
       ) : (
         <StyledTraningPage
           as={motion.div}
@@ -160,11 +168,7 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
         exit={{ opacity: 1, transition: { duration: 0.1 } }}
       >
         {isLoading || isFetching ? (
-          <HashLoader
-            color="#FF6B08"
-            size={200}
-            cssOverride={{ marginTop: "200px" }}
-          />
+          <Loader className="showcase-item__new-loader" />
         ) : (
           <>
             <MyGoals books={booksIdForGoals} />
@@ -203,11 +207,7 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
     <Container style={{ marginBottom: "50px" }}>
       <StyledTraningPage>
         {isLoading ? (
-          <HashLoader
-            color="#FF6B08"
-            size={200}
-            cssOverride={{ marginTop: "200px" }}
-          />
+          <Loader className="showcase-item__new-loader" />
         ) : (
           <>
             <div
