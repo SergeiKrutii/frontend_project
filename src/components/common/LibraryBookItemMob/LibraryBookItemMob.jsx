@@ -104,6 +104,7 @@ const LibraryBookItemMob = ({
           <ModalBtn
             handleToggle={handleToggle}
             open={open}
+            style={{ marginBottom: 0 }}
             component={
               <FormSummaryModal
                 review={book?.rating?.resume}

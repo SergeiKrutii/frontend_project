@@ -160,6 +160,12 @@ const StyledStatisticResult = styled.div`
   }
 `;
 
+const StyledStatisticError = styled.div`
+  color: red;
+  font-size: 12px;
+  font-weight: 600;
+`;
+
 export {
   StyledResultWrapper,
   StyledResultTitle,
@@ -173,4 +179,5 @@ export {
   StyledCalendarWrapper,
   StyledStatisticResult,
   StyledResultsContainer,
+  StyledStatisticError,
 };

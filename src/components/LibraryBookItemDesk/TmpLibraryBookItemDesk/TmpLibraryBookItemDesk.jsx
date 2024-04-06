@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 import {
   StyledBookItemTmp,
   StyledBookTitleTmp,
@@ -7,9 +9,12 @@ import { useMatchMedia } from "helpers/mediaQuery";
 
 const TmpLibraryBookItemDesk = () => {
   const { isDesktop } = useMatchMedia();
+  const { pathname } = useLocation();
+
   const shuldMargin = isDesktop ? "marginLeft: 0px" : "marginLeft: 20px";
+
   return (
-    <StyledBookItemTmp>
+    <StyledBookItemTmp $page={pathname}>
       <SpriteIcon
         style={{ shuldMargin }}
         width="22"
@@ -17,7 +22,7 @@ const TmpLibraryBookItemDesk = () => {
         name={"icon-Flat1"}
         fill={"#898F9F"}
       />
-      <StyledBookTitleTmp>...</StyledBookTitleTmp>
+      <StyledBookTitleTmp $page={pathname}>...</StyledBookTitleTmp>
     </StyledBookItemTmp>
   );
 };
