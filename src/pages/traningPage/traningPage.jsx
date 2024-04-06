@@ -83,18 +83,6 @@ const TraningPage = ({ booksForGoal, handleDelete, dateDiff, setDateDiff }) => {
         )
   );
 
-  // const pagePerDay = Math.ceil(
-  //   booksForGoal?.length === 0 && (isTablet || isDesktop)
-  //     ? goal?.updatedBooks.reduce(
-  //         (acc, elem) => acc + elem.amount_page / untilGoalAchieved,
-  //         0
-  //       )
-  //     : defineVariableBySize?.reduce(
-  //         (acc, elem) => acc + elem.amount_page / dateDiff,
-  //         0
-  //       )
-  // );
-
   const booksFromNewGoalMob =
     booksForGoal?.length === 0 ? goal?.updatedBooks : booksForGoal;
 

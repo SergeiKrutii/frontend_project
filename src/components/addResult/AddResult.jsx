@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Calendar from "react-calendar";
 import { useEffect, useState } from "react";
+import * as Yup from "yup";
 
 import MainButton from "components/common/mainButton";
 import {
@@ -20,6 +21,7 @@ import {
   StyledCalendarWrapper,
   StyledStatisticResult,
   StyledResultsContainer,
+  StyledStatisticError,
 } from "./StyledAddResult";
 import { useAddResultMutation } from "redux/result/resultApiSlice";
 
@@ -56,11 +58,20 @@ const AddResult = ({ results = [] }) => {
     handleToggleCalendar();
   };
 
+  const addResultSchema = Yup.object().shape({
+    pageAmount: Yup.string()
+      .matches(/^\d+$/, "Тільки цифри")
+      .max(3, "Не більше 3 цифр"),
+  });
+
   const formik = useFormik({
     initialValues: {
       date: "",
       pageAmount: "",
     },
+
+    validationSchema: addResultSchema,
+
     onSubmit: (values) => {
       if (isResultPicked) {
         toast.warning("Ви не обрали дату чи кількість сторінок", {
@@ -105,15 +116,23 @@ const AddResult = ({ results = [] }) => {
             </StyledCalendarWrapper>
           )}
           <StyledResultInputWrapper>
-            <StyledResultLabel htmlFor="pageAmount">
-              Кількість сторінок
-            </StyledResultLabel>
+            {formik.touched.pageAmount && formik.errors.pageAmount ? (
+              <StyledStatisticError>
+                {formik.errors.pageAmount}
+              </StyledStatisticError>
+            ) : (
+              <StyledResultLabel htmlFor="pageAmount">
+                Кількість сторінок
+              </StyledResultLabel>
+            )}
+
             <StyledResultInput
               type="text"
               name="pageAmount"
               id="pageAmount"
               value={formik.values.pageAmount}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             ></StyledResultInput>
           </StyledResultInputWrapper>
         </StyledResultDate>

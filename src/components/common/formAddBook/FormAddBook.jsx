@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useMatchMedia } from "helpers/mediaQuery";
@@ -17,10 +18,30 @@ import {
 } from "./StyledFormAddBook";
 import GetBackButton from "components/common/getBackButton";
 import { useAddBookMutation } from "redux/book/booksApiSlice";
+import { StyledFormikError } from "components/form/StyledForm";
 
 const FormAddBook = (props) => {
   const { isMobile } = useMatchMedia();
-  const [setBooks] = useAddBookMutation();
+  const [addBook, { isSuccess }] = useAddBookMutation();
+
+  const addBookSchema = Yup.object().shape({
+    title: Yup.string()
+      .required("Введіть назву книги")
+      .max(50, "Назва книги повинна бути не більше 50 символів.")
+      .required("Обов'язкове поле"),
+    author: Yup.string()
+      .required("Введіть дату")
+      .max(25, "Не більше 25 символів.")
+      .required("Обов'язкове поле"),
+    publication_date: Yup.string()
+      .required("Введіть дату")
+      .min(4, "Не менше 4 символів")
+      .max(4, "Не більше 4 символів"),
+    amount_page: Yup.string()
+      .required("Введіть кількість сторінок")
+      .max(4, "Cорінок має бути не більше 4 символів.")
+      .required("Обов'язкове поле"),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +51,9 @@ const FormAddBook = (props) => {
       amount_page: "",
     },
 
-    onSubmit: ({ title, author, publication_date, amount_page }) => {
+    validationSchema: addBookSchema,
+
+    onSubmit: async ({ title, author, publication_date, amount_page }) => {
       const isEmptyField =
         title === "" ||
         author === "" ||
@@ -52,14 +75,14 @@ const FormAddBook = (props) => {
         amount_page: amount_page,
       };
 
-      setTimeout(() => {
-        setBooks(newBook);
+      await addBook(newBook);
+
+      if (isSuccess) {
         toast.success("Книгу додано!", {
           theme: "colored",
           containerId: "mainContainer",
         });
-      }, 500);
-
+      }
       formik.resetForm();
     },
   });
@@ -77,7 +100,11 @@ const FormAddBook = (props) => {
             placeholder="..."
             onChange={formik.handleChange}
             value={formik.values.title}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.title && formik.errors.title && (
+            <StyledFormikError>{formik.errors.title}</StyledFormikError>
+          )}
         </StyledInputWrapper>
         <StyledInputWrapper>
           <StyledLabel htmlFor="author">Автор книги</StyledLabel>
@@ -88,7 +115,11 @@ const FormAddBook = (props) => {
             placeholder="..."
             onChange={formik.handleChange}
             value={formik.values.author}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.author && formik.errors.author && (
+            <StyledFormikError>{formik.errors.author}</StyledFormikError>
+          )}
         </StyledInputWrapper>
 
         <StyledInputWrapper>
@@ -100,7 +131,14 @@ const FormAddBook = (props) => {
             placeholder="..."
             onChange={formik.handleChange}
             value={formik.values.publication_date}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.publication_date &&
+            formik.errors.publication_date && (
+              <StyledFormikError>
+                {formik.errors.publication_date}
+              </StyledFormikError>
+            )}
         </StyledInputWrapper>
 
         <StyledInputWrapper>
@@ -112,7 +150,11 @@ const FormAddBook = (props) => {
             placeholder="..."
             onChange={formik.handleChange}
             value={formik.values.amount_page}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.amount_page && formik.errors.amount_page && (
+            <StyledFormikError>{formik.errors.amount_page}</StyledFormikError>
+          )}
         </StyledInputWrapper>
         <StyledFormBtn type="submit">Додати</StyledFormBtn>
       </StyledForm>
@@ -129,7 +171,11 @@ const FormAddBook = (props) => {
             placeholder="..."
             onChange={formik.handleChange}
             value={formik.values.title}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.title && formik.errors.title && (
+            <StyledFormikError>{formik.errors.title}</StyledFormikError>
+          )}
         </StyledInputWrapper>
         <StyledConponentWrapper>
           <StyledInputWrapper>
@@ -141,7 +187,11 @@ const FormAddBook = (props) => {
               placeholder="..."
               onChange={formik.handleChange}
               value={formik.values.author}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.author && formik.errors.author && (
+              <StyledFormikError>{formik.errors.author}</StyledFormikError>
+            )}
           </StyledInputWrapper>
           <StyledInputWrapper>
             <StyledLabel htmlFor="publication_date">Рік випуску</StyledLabel>
@@ -152,7 +202,14 @@ const FormAddBook = (props) => {
               placeholder="..."
               onChange={formik.handleChange}
               value={formik.values.publication_date}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.publication_date &&
+              formik.errors.publication_date && (
+                <StyledFormikError>
+                  {formik.errors.publication_date}
+                </StyledFormikError>
+              )}
           </StyledInputWrapper>
 
           <StyledInputWrapper>
@@ -164,7 +221,11 @@ const FormAddBook = (props) => {
               placeholder="..."
               onChange={formik.handleChange}
               value={formik.values.amount_page}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.amount_page && formik.errors.amount_page && (
+              <StyledFormikError>{formik.errors.amount_page}</StyledFormikError>
+            )}
           </StyledInputWrapper>
         </StyledConponentWrapper>
         <StyledFormBtn type="submit">Додати</StyledFormBtn>

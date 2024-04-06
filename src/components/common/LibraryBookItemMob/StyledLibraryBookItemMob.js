@@ -4,8 +4,9 @@ import checkBoxIcon from "../../images/checkbox.svg";
 const StyledBookItem = styled.div(({ $page }) => ({
   width: "270px",
   background: $page === "/traning" ? "transparent" : "white",
+  paddingBottom: $page === "/traning" ? 0 : 30,
   marginTop: $page === "/traning" ? 0 : 15,
-  padding: "20px 0px 0px 0px",
+  paddingTop: 20,
 
   "@media screen and (min-width: 768px)": {
     padding: 0,

@@ -20,7 +20,7 @@ const StyledTraningPage = styled.div`
     flex-wrap: nowrap;
     justify-content: center;
     min-height: 830px;
-    padding-bottom: 0;
+    padding-bottom: 40px;
   }
 `;
 

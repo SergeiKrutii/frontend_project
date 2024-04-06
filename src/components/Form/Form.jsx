@@ -28,7 +28,7 @@ const Form = ({ loc, btnText }) => {
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
-      .max(10, "Ім'я повинно бути не більше 10 символів, або менше")
+      .max(10, "Ім'я повинно бути не більше 10 символів")
       .required("Обов'язкове поле"),
     email: Yup.string()
       .email("Не корректна почтова адресса")

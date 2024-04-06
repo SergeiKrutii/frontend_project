@@ -33,11 +33,16 @@ const CategoryLibrary = ({
           <ChapterLibrary title="Читаю" books={isReadBooks} />
         </StyledCategoryItemBox>
       )}
+      {isWantReadToBooks.length !== 0 && (
+        <StyledCategoryItemBox>
+          <StyledCategoryTitle>Маю намір прочитати</StyledCategoryTitle>
+          <ChapterLibrary
+            title="Маю намір прочитати"
+            books={isWantReadToBooks}
+          />
+        </StyledCategoryItemBox>
+      )}
 
-      <StyledCategoryItemBox>
-        <StyledCategoryTitle>Маю намір прочитати</StyledCategoryTitle>
-        <ChapterLibrary title="Маю намір прочитати" books={isWantReadToBooks} />
-      </StyledCategoryItemBox>
       {books?.length !== 0 && pathname === "/library" && (
         <StyledCategoryLink to={"/traning"}>Далі</StyledCategoryLink>
       )}
