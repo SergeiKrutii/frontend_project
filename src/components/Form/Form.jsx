@@ -18,7 +18,7 @@ const Form = ({ loc, btnText }) => {
   const isRegisterPage = loc === "/register";
   const { isMobile } = useMatchMedia();
 
-  const redirectPage = isMobile ? "/" : "/library";
+  const redirectPage = isMobile ? "/addbook" : "/library";
 
   const [setRegisterData] = useSignupMutation();
 

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useMatchMedia } from "helpers/mediaQuery";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import CategoryLibrary from "components/сategoryLibrary";
 import { useGetBookQuery } from "redux/book/booksApiSlice";
@@ -9,32 +9,22 @@ import { StyledLibralyPage } from "./StyledLibralyPage";
 import LinkPageAdd from "components/common/linkPageAdd";
 import FormAddBook from "components/common/formAddBook";
 import EmptySteps from "components/emptySteps";
-import booksSelectors from "redux/book/booksSelectors";
 import Container from "components/common/container";
 import Loader from "components/common/loader";
-import authSelectors from "redux/auth/authSelectors";
-import { useNavigate } from "react-router-dom";
 
 const LibraryPage = () => {
-  const isHaveBooks = useSelector(booksSelectors.selectHaveBooks);
-  const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
-  const shuldFetch = useRef(isHaveBooks);
-
   const [isReadBooks, setIsReadBooks] = useState([]);
   const [isWantReadToBooks, setWantReadToBooks] = useState([]);
+  const navigate = useNavigate();
 
   const [isReadingBooks, setIsReadingBooks] = useState([]);
   const { isMobile } = useMatchMedia();
 
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) navigate("/login");
-  // }, [isLoggedIn, navigate]);
-
   const { data: books, isLoading, isFetching } = useGetBookQuery();
 
   useEffect(() => {
+    if (isMobile && books?.length === 0) navigate("/addbook");
+
     if (books) {
       const readingBooks = books?.filter(
         (book) => book.status === "Вже прочитано"
