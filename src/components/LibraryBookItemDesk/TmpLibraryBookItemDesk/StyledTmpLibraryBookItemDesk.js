@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledBookItemTmp = styled.div({
+const StyledBookItemTmp = styled.div((props) => ({
   width: 678,
   height: 62,
   display: "flex",
@@ -8,7 +8,6 @@ const StyledBookItemTmp = styled.div({
   background: "transparent",
 
   "@media screen and (min-width: 768px)": {
-    borderTop: "2px solid rgba(224, 229, 235, 1)",
     borderBottom: "2px solid rgba(224, 229, 235, 1)",
     marginBottom: "50px",
   },
@@ -16,7 +15,7 @@ const StyledBookItemTmp = styled.div({
   "@media screen and (min-width: 1280px)": {
     width: "100%",
   },
-});
+}));
 
 const StyledBookTitleTmp = styled.p((props) => ({
   fontSize: 19,

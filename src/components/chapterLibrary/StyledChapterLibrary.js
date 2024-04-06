@@ -58,11 +58,12 @@ const StyledChapterLibraryTableDesk = styled.table(({ theme }) => ({
     lineHeight: "38px",
     borderTop:
       theme.page === "/library" ? "" : "2px solid rgba(224, 229, 235, 1)",
+    borderBottom:
+      theme.page === "/library" ? "" : "2px solid rgba(224, 229, 235, 1)",
   },
 
   "@media screen and (min-width: 1279px)": {
     width: "100%",
-    borderBottom: "2px solid rgba(224, 229, 235, 1)",
   },
 }));
 

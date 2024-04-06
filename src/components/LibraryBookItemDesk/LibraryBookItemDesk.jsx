@@ -36,6 +36,7 @@ const LibraryBookItemDesk = ({
   const [isDisabled, setIsDisabled] = useState(false);
   const { isDesktop } = useMatchMedia();
   const { pathname } = useLocation();
+  console.log("🚀 ~ pathname:", pathname);
 
   const bookReadingStatus = book.status === "Читаю" && pathname === "/library";
 

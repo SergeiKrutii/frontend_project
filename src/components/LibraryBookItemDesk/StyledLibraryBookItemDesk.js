@@ -28,9 +28,15 @@ const StyledBookItem = styled.div(({ theme }) => ({
 
 const StyledTimedDiv = styled.div`
   @media screen and (min-width: 768px) and (max-width: 1279px) {
+    box-shadow: ${(props) =>
+      props.theme.page === "/library" &&
+      "0px 2px 3px 0px rgba(9, 30, 63, 0.10)"};
+
     &:first-child {
-      border-top: 2px solid rgba(224, 229, 235, 1);
-      border-bottom: 2px solid rgba(224, 229, 235, 1);
+      border-top: ${(props) =>
+        props.theme.page === "/traning" && "2px solid rgba(224, 229, 235, 1)"};
+      border-bottom: ${(props) =>
+        props.theme.page === "/traning" && "2px solid rgba(224, 229, 235, 1)"};
     }
     &:not(:first-child) {
       border-bottom: 2px solid rgba(224, 229, 235, 1);

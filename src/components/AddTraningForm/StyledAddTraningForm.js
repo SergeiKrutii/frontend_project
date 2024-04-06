@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledAddTraningContainer = styled.div`
   max-width: 270px;
   height: 588px;
-  /* margin-top: 55px; */
 
   @media screen and (min-width: 768px) {
     max-width: 678px;

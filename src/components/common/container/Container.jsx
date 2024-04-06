@@ -2,13 +2,17 @@ import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 
 import { StyledContainer } from "./StyledContainer";
+import { useMatchMedia } from "helpers/mediaQuery";
 
-const Container = ({ children }) => {
+const Container = ({ children, style }) => {
   const { pathname } = useLocation();
+  const { isMobile } = useMatchMedia();
 
   return (
     <>
-      <StyledContainer $page={pathname}>{children}</StyledContainer>
+      <StyledContainer $page={pathname} $devise={isMobile}>
+        {children}
+      </StyledContainer>
     </>
   );
 };

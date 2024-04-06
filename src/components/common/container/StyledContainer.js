@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const StyledContainer = styled.div((props) => ({
+  display: props.$devise ? "flex" : "block",
+  flexWrap: props.$devise && "wrap",
+  justifyContent: props.$devise && "center",
   fontFamily: "Roboto",
   color: "#fff",
   minHeight: 648,
@@ -8,7 +11,6 @@ export const StyledContainer = styled.div((props) => ({
   maxWidth: 320,
   paddingLeft: 25,
   paddingRight: 25,
-
   background: "#f6f7fb",
 
   "@media screen  and (min-width: 768px)": {
